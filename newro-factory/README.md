@@ -20,7 +20,7 @@ To build and start the application:
 This will:
 1. Build the Docker image using the Dockerfile
 2. Start the container with the correct port mapping
-3. Make the application available at http://localhost:8081/qlf
+3. Make the application available at http://localhost:8080/qlf
 
 ### Stopping the Application
 
@@ -57,5 +57,4 @@ To build the project without Docker:
 ```bash
 mvn clean package
 ```
-
 The WAR file will be generated at `webapp/target/qlf.war`.
