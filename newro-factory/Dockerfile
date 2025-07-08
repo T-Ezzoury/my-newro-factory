@@ -16,6 +16,12 @@ RUN mvn -B dependency:go-offline
 # Copier le reste des sources
 COPY . .
 
+# Provide default configuration using the example files
+RUN cp persistence/src/main/resources/database_exemple.properties \
+        persistence/src/main/resources/database.properties && \
+    cp service/src/main/resources/security_exemple.properties \
+        service/src/main/resources/security.properties
+
 # Compiler le module webapp et ses dépendances
 RUN mvn -pl webapp -am clean package -DskipTests
 
