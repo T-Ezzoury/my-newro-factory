@@ -1,0 +1,147 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ECS EC2 instances auto-joining an existing ECS cluster and running an ECR-based task
+
+Parameters:
+  ECSClusterName:
+    Type: String
+    Description: Name of your existing ECS Cluster (must exist)
+  ECSAMI:
+    Type: AWS::EC2::Image::Id
+    Default: ami-0d1449d2ccf42c216
+    Description: ECS-Optimized AMI ID for your region (Amazon Linux 2)
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    Description: EC2 instance type
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: List of Subnet IDs for AutoScaling group (must be in same VPC)
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID where the subnets are located
+
+Resources:
+
+  ECSInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ECSInstanceRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+
+  ECSInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: ECSInstanceProfile
+      Roles:
+        - !Ref ECSInstanceRole
+
+  TaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ECSExecutionRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+
+  ECSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH and HTTP
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+
+  ECSLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: ECSLaunchTemplate
+      LaunchTemplateData:
+        InstanceType: !Ref InstanceType
+        ImageId: !Ref ECSAMI
+        SecurityGroupIds:
+          - !Ref ECSSecurityGroup
+        IamInstanceProfile:
+          Name: !Ref ECSInstanceProfile
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            echo ECS_CLUSTER=${ECSClusterName} >> /etc/ecs/ecs.config
+            echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
+            systemctl restart ecs
+
+  ECSAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      VPCZoneIdentifier: !Ref SubnetIds
+      LaunchTemplate:
+        LaunchTemplateId: !Ref ECSLaunchTemplate
+        Version: !GetAtt ECSLaunchTemplate.LatestVersionNumber
+      MinSize: 1
+      MaxSize: 2
+      DesiredCapacity: 1
+      Tags:
+        - Key: Name
+          Value: ECS-Node
+          PropagateAtLaunch: true
+
+  MyTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: my-task
+      RequiresCompatibilities:
+        - EC2
+      Cpu: "256"
+      Memory: "512"
+      NetworkMode: bridge
+      ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: my-container
+          Image: 203918857465.dkr.ecr.eu-west-1.amazonaws.com/spring-app:latest
+          Essential: true
+          PortMappings:
+            - ContainerPort: 8080
+              HostPort: 8080
+
+  MyECSService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSClusterName
+      DesiredCount: 1
+      LaunchType: EC2
+      TaskDefinition: !Ref MyTaskDefinition
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 50
+
+Outputs:
+  LaunchTemplate:
+    Value: !Ref ECSLaunchTemplate
+  AutoScalingGroup:
+    Value: !Ref ECSAutoScalingGroup
+  TaskDefinition:
+    Value: !Ref MyTaskDefinition
+  ECSService:
+    Value: !Ref MyECSService

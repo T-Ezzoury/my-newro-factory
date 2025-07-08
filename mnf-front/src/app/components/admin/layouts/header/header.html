@@ -1,0 +1,74 @@
+<header class="admin-header">
+  <mat-toolbar class="toolbar text-white">
+    <div class="logo-container">
+      <a routerLink="/admin" class="logo text-2xl font-bold">{{ 'app.adminTitle' | translate }}</a>
+    </div>
+    <span class="spacer"></span>
+    <div class="nav-links hidden md:flex">
+      @for (link of navLinks; track link.path) {
+        <a mat-button [routerLink]="link.path" class="text-blue-300 hover:text-blue-100 transition duration-200">
+          {{ 'nav.' + link.label.toLowerCase() | translate }}
+        </a>
+      }
+    </div>
+
+    <!-- Language selector -->
+    <button mat-icon-button [matMenuTriggerFor]="languageMenu" class="language-selector ml-2">
+      <img src="assets/flags/{{currentLanguage.flag}}.svg" alt="{{currentLanguage.name}}" class="flag-icon">
+    </button>
+    <mat-menu #languageMenu="matMenu">
+      @for (lang of languages; track lang.code) {
+        <button mat-menu-item (click)="changeLanguage(lang.code)">
+          <img src="assets/flags/{{lang.flag}}.svg" alt="{{lang.name}}" class="flag-icon">
+          <span>{{ lang.name }}</span>
+        </button>
+      }
+    </mat-menu>
+
+    <!-- Theme toggle -->
+    <app-theme-toggle (themeChanged)="onThemeChanged($event)" class="ml-2"></app-theme-toggle>
+
+    <!-- Back to user area button -->
+    <a mat-icon-button routerLink="/" class="ml-2" matTooltip="{{ 'backToUserArea' | translate }}">
+      <mat-icon>home</mat-icon>
+    </a>
+
+    <!-- Logout button -->
+    <button mat-icon-button (click)="logout()" class="ml-2" matTooltip="{{ 'logout' | translate }}">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+
+    <!-- Mobile menu button -->
+    <button mat-icon-button class="menu-button ml-2 md:hidden" (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar>
+</header>
+
+<!-- Sidenav for mobile -->
+@if (sidenavOpened) {
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav [opened]="sidenavOpened" [mode]="'over'" class="sidenav bg-gray-800 text-white">
+      <mat-toolbar class="bg-gray-700" i18n="@@adminMenuTitle">Admin Menu</mat-toolbar>
+      <mat-nav-list>
+        @for (link of navLinks; track link.path) {
+          <a mat-list-item [routerLink]="link.path" (click)="toggleSidenav()" class="text-blue-300">
+            {{ 'nav.' + link.label.toLowerCase() | translate }}
+          </a>
+        }
+        <mat-divider class="bg-gray-600 my-2"></mat-divider>
+        <a mat-list-item routerLink="/" (click)="toggleSidenav()" class="text-blue-300">
+          <mat-icon class="mr-2">home</mat-icon>
+          {{ 'backToUserArea' | translate }}
+        </a>
+        <a mat-list-item (click)="logout(); toggleSidenav()" class="text-red-400">
+          <mat-icon class="mr-2">exit_to_app</mat-icon>
+          {{ 'logout' | translate }}
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <!-- Empty content, just to satisfy the Angular Material requirements -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+}

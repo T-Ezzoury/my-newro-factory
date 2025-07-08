@@ -1,0 +1,68 @@
+<div class="promotion-list-container">
+  <div class="list-header">
+    <h2 class="list-title">Promotions</h2>
+    <a routerLink="/admin/promotions/create" class="add-button">
+      Add Promotion
+    </a>
+  </div>
+
+  <!-- Error message -->
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Loading indicator -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <span class="loading-text">Loading promotions...</span>
+    </div>
+  }
+
+  <!-- No promotions message -->
+  @if (!loading && promotions.length === 0) {
+    <div class="empty-state">
+      <p class="empty-state-text">No promotions found. Create your first promotion to get started.</p>
+    </div>
+  }
+
+  <!-- Promotions list -->
+  @if (!loading && promotions.length > 0) {
+    <div class="table-container">
+      <table class="data-table">
+        <thead class="table-header">
+          <tr>
+            <th scope="col" class="table-header-cell">ID</th>
+            <th scope="col" class="table-header-cell">Name</th>
+            <th scope="col" class="table-header-cell">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          @for (promotion of paginatedPromotions; track promotion.id) {
+            <tr class="table-row">
+              <td class="table-cell">{{ promotion.id }}</td>
+              <td class="table-cell">{{ promotion.name }}</td>
+              <td class="table-cell">
+                <div class="actions-container">
+                  @if (promotion.id !== undefined) {
+                    <a [routerLink]="['/admin/promotions', promotion.id]" class="view-button">View</a>
+                  }
+                  @if (promotion.id !== undefined) {
+                    <a [routerLink]="['/admin/promotions/edit', promotion.id]" class="edit-button">Edit</a>
+                  }
+                  @if (promotion.id !== undefined) {
+                    <button (click)="deletePromotion(promotion.id)" class="delete-button">Delete</button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Pagination is now handled by the parent component -->
+    </div>
+  }
+</div>

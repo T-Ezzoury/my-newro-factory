@@ -1,0 +1,70 @@
+# === Node.js ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Java / Spring Boot ===
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# === Maven ===
+.mvn/
+!**/src/main/**
+!**/src/test/**
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# === IntelliJ / Eclipse / VS Code ===
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# === Logs ===
+logs/
+*.log
+
+# === Environment / Secrets ===
+.env
+.env.local
+*.env.*
+*.key
+*.pem
+
+# === MySQL dumps ===
+*.sql
+*.sql.gz
+
+# === OS Specific ===
+.DS_Store
+Thumbs.db
+
+# === Build tools ===
+dist/
+build/
+out/
+
+# === Misc ===
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# === Docker ===
+.docker/
+docker-compose.override.yml
+docker-compose.override.yaml
+
+**/*.properties
+!**/*_exemple*.properties

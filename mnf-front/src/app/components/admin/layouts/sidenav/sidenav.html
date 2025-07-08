@@ -1,0 +1,21 @@
+<!-- Sidenav for admin -->
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav [opened]="opened" [mode]="'over'" class="sidenav bg-gray-800 text-white">
+    <mat-toolbar class="bg-gray-700" i18n="@@adminMenuTitle">Admin Menu</mat-toolbar>
+    <mat-nav-list>
+      @for (link of navLinks; track link.path) {
+        <a mat-list-item [routerLink]="link.path" (click)="close()" class="text-blue-300 hover:bg-gray-700">
+          {{ 'nav.' + link.label.toLowerCase() | translate }}
+        </a>
+      }
+      <mat-divider class="bg-gray-600 my-2"></mat-divider>
+      <a mat-list-item (click)="logout(); close()" class="text-red-400">
+        <mat-icon class="mr-2">exit_to_app</mat-icon>
+        {{ 'logout' | translate }}
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- Empty content, just to satisfy the Angular Material requirements -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

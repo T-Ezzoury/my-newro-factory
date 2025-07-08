@@ -1,0 +1,78 @@
+<header class="header">
+  <mat-toolbar class="toolbar">
+    <div class="logo-container">
+      <a routerLink="/" class="logo">{{ 'app.title' | translate }}</a>
+    </div>
+    <span class="spacer"></span>
+    <div class="nav-links">
+      @for (link of navLinks; track link.path) {
+      <a mat-button [routerLink]="link.path"
+        >{{ 'nav.' + link.label.toLowerCase() | translate }}</a
+      >
+      }
+    </div>
+    <div class="auth-buttons">
+      <a mat-button routerLink="/auth" class="login-button">
+        <mat-icon>login</mat-icon>
+        {{ 'auth.login' | translate }}
+      </a>
+    </div>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="languageMenu"
+      class="language-selector"
+    >
+      <img
+        src="assets/flags/{{currentLanguage.flag}}.svg"
+        alt="{{currentLanguage.name}}"
+        class="flag-icon"
+      />
+    </button>
+    <mat-menu #languageMenu="matMenu">
+      @for (lang of languages; track lang.code) {
+      <button mat-menu-item (click)="changeLanguage(lang.code)">
+        <img
+          src="assets/flags/{{lang.flag}}.svg"
+          alt="{{lang.name}}"
+          class="flag-icon"
+        />
+        <span>{{ lang.name }}</span>
+      </button>
+      }
+    </mat-menu>
+    <app-theme-toggle
+      (themeChanged)="onThemeChanged($event)"
+    ></app-theme-toggle>
+    <button mat-icon-button class="menu-button" (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar>
+</header>
+
+<!-- Sidenav as a separate component that doesn't wrap the header -->
+@if (sidenavOpened) {
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    [opened]="sidenavOpened"
+    [mode]="'over'"
+    class="sidenav"
+  >
+    <mat-nav-list>
+      @for (link of navLinks; track link.path) {
+      <a mat-list-item [routerLink]="link.path" (click)="toggleSidenav()">
+        {{ 'nav.' + link.label.toLowerCase() | translate }}
+      </a>
+      }
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLink="/auth" (click)="toggleSidenav()">
+        <mat-icon class="mr-2">login</mat-icon>
+        {{ 'auth.login' | translate }}
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- Empty content, just to satisfy the Angular Material requirements -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
+}

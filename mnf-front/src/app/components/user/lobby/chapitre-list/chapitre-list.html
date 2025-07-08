@@ -1,0 +1,27 @@
+<div class="container-chapitres">
+  <div class="search-bar">
+    <input
+      type="search"
+      placeholder="Rechercher"
+      class="search-field"
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+
+  <div class="quiz-grid">
+    @for (chapitre of selectedChapitres(); track $index) {
+    <app-chapitre-card
+      [chapitre]="chapitre"
+      (click)="removeChapitre(chapitre)"
+      [selected]="true"
+    ></app-chapitre-card>
+
+    } @for (chapitre of filteredChapitres(); track $index) {
+    <app-chapitre-card
+      [chapitre]="chapitre"
+      (click)="addChapitre(chapitre)"
+      [selected]="false"
+    ></app-chapitre-card>
+    }
+  </div>
+</div>

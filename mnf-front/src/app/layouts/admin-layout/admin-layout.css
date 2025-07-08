@@ -1,0 +1,48 @@
+/* Admin Layout Styles */
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Tab Navigation Styles */
+.crud-tabs-container {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+}
+
+/* Override Angular Material tab styles for dark theme */
+:host ::ng-deep .mat-mdc-tab-nav-bar {
+  border-bottom: none;
+}
+
+:host ::ng-deep .mat-mdc-tab-link {
+  color: #a0aec0;
+  opacity: 0.8;
+  transition: all 0.2s ease-in-out;
+}
+
+:host ::ng-deep .mat-mdc-tab-link.mdc-tab--active {
+  color: #63b3ed;
+  opacity: 1;
+  font-weight: 500;
+}
+
+:host ::ng-deep .mat-mdc-tab-link:hover {
+  color: #e2e8f0;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Content area styles */
+.crud-content {
+  padding: 1rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .crud-tabs-container {
+    overflow-x: auto;
+  }
+}

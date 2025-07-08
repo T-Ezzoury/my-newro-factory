@@ -1,0 +1,25 @@
+/* Global layout styles */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content styles */
+.main-content {
+  flex: 1;
+  padding-top: 60px; /* Reduced top padding since header is now sticky, not fixed */
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: calc(
+    100vh - 128px
+  ); /* Ensure content takes up at least the viewport height minus header and footer */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 60px; /* Reduced padding for mobile */
+  }
+}

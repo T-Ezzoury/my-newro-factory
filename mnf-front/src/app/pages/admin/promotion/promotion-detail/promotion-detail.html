@@ -1,0 +1,75 @@
+<div class="promotion-detail">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Promotion Details</h2>
+    <div class="flex space-x-2">
+      <a routerLink="/admin/promotions" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+        Back to List
+      </a>
+      <a *ngIf="promotion" [routerLink]="['/admin/promotions/edit', promotion.id]" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Edit
+      </a>
+      <button *ngIf="promotion" (click)="deletePromotion()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="text-center py-4">
+    <p>Loading...</p>
+  </div>
+
+  <div *ngIf="!loading && promotion" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="mb-4">
+      <h3 class="text-lg font-bold mb-2">Promotion Information</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">ID:</p>
+          <p>{{ promotion.id }}</p>
+        </div>
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">Name:</p>
+          <p>{{ promotion.name }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <h3 class="text-lg font-bold mb-2">Interns in this Promotion</h3>
+
+      <div *ngIf="interns.length === 0" class="text-center py-4">
+        <p>No interns found in this promotion.</p>
+      </div>
+
+      <div *ngIf="interns.length > 0" class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b text-left">ID</th>
+              <th class="py-2 px-4 border-b text-left">First Name</th>
+              <th class="py-2 px-4 border-b text-left">Last Name</th>
+              <th class="py-2 px-4 border-b text-left">Arrival</th>
+              <th class="py-2 px-4 border-b text-left">Formation Over</th>
+              <th class="py-2 px-4 border-b text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let intern of interns" class="hover:bg-gray-50">
+              <td class="py-2 px-4 border-b">{{ intern.id }}</td>
+              <td class="py-2 px-4 border-b">{{ intern.first_name }}</td>
+              <td class="py-2 px-4 border-b">{{ intern.last_name }}</td>
+              <td class="py-2 px-4 border-b">{{ intern.arrival | date }}</td>
+              <td class="py-2 px-4 border-b">{{ intern.formation_over | date }}</td>
+              <td class="py-2 px-4 border-b text-right">
+                <a [routerLink]="['/admin/interns', intern.id]" class="text-blue-500 hover:text-blue-700">View</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

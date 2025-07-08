@@ -1,0 +1,83 @@
+<div class="dialog-container">
+  <!-- Dialog header -->
+  <div class="dialog-header">
+    <h2 class="dialog-title">{{ 'userList.title' | translate }}</h2>
+    <button mat-icon-button (click)="close()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Search field -->
+  <div class="search-container">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>{{ 'userList.search' | translate }}</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="{{ 'userList.searchPlaceholder' | translate }}">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Favorites section -->
+  <div class="section-container">
+    <h3 class="section-title">{{ 'userList.favorites' | translate }}</h3>
+
+    @if (loadingFavorites) {
+      <div class="loading-container">
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+    } @else if (favoriteError) {
+      <div class="error-message">{{ favoriteError }}</div>
+    } @else if (favoriteUsers.length === 0) {
+      <div class="empty-message">{{ 'userList.noFavorites' | translate }}</div>
+    } @else {
+      <div class="user-list">
+        @for (user of favoriteUsers; track user.id) {
+          <div class="user-item">
+            <div class="user-info">
+              <div class="user-name">{{ user.name }}</div>
+              <div class="user-email">{{ user.email }}</div>
+            </div>
+            <button mat-icon-button color="warn" (click)="toggleFavorite(user)" title="{{ 'favorites.remove' | translate }}">
+              <mat-icon>favorite</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Other users section -->
+  <div class="section-container">
+    <h3 class="section-title">{{ 'userList.otherUsers' | translate }}</h3>
+
+    @if (loadingUsers) {
+      <div class="loading-container">
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+    } @else if (userError) {
+      <div class="error-message">{{ userError }}</div>
+    } @else if (otherUsers.length === 0) {
+      <div class="empty-message">{{ 'userList.noUsers' | translate }}</div>
+    } @else {
+      <div class="user-list">
+        @for (user of otherUsers; track user.id) {
+          <div class="user-item">
+            <div class="user-info">
+              <div class="user-name">{{ user.name }}</div>
+              <div class="user-email">{{ user.email }}</div>
+            </div>
+            <button mat-icon-button color="primary" (click)="toggleFavorite(user)" title="{{ 'favorites.add' | translate }}">
+              <mat-icon>favorite_border</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Dialog actions -->
+  <div class="dialog-actions">
+    <button mat-button (click)="close()">{{ 'userList.close' | translate }}</button>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: large;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.lobby-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  min-height: 70vh;
+  margin: 64px;
+}
+
+.lobby-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.lobby-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.invite-button {
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.invite-button:hover {
+  background-color: var(--primary-dark-color, #005cb2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.invite-icon {
+  font-size: 20px;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.question-number {
+  display: flex;
+  align-self: flex-end;
+  gap: 10px;
+  width: 30%;
+}
+
+.number-field {
+  flex: 1;
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: #7dc5c6;
+}
+
+.launch-button {
+  background-color: var(--secondary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 32px;
+  transition: all 0.3s ease; /* Animation douce pour les effets */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.launch-button:hover {
+  background-color: #942c3d;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+input:focus {
+  border: 3px solid var(--border-color);
+}

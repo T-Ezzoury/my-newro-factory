@@ -1,0 +1,62 @@
+<div class="form-container">
+  <div class="form-header">
+    <h2>{{ isEditMode ? 'Edit User' : 'Create User' }}</h2>
+    <div class="form-actions">
+      <button mat-button (click)="cancel()" class="cancel-button">Cancel</button>
+    </div>
+  </div>
+
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input type="text" id="name" formControlName="name" class="form-input" placeholder="Enter user name">
+      @if (userForm.get('name')?.invalid && userForm.get('name')?.touched) {
+        <div class="error-message">Name is required</div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email" class="form-input" placeholder="Enter user email">
+      @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+        <div class="error-message">
+          @if (userForm.get('email')?.errors?.['required']) {
+            Email is required
+          } @else if (userForm.get('email')?.errors?.['email']) {
+            Please enter a valid email address
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="role">Role</label>
+      <select id="role" formControlName="role" class="form-input">
+        @for (role of roles; track role) {
+          <option [value]="role">{{ role }}</option>
+        }
+      </select>
+      @if (userForm.get('role')?.invalid && userForm.get('role')?.touched) {
+        <div class="error-message">Role is required</div>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="userForm.invalid || loading" class="submit-button">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </form>
+
+  @if (loading) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+    </div>
+  }
+</div>

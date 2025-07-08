@@ -1,0 +1,70 @@
+<div class="chapter-list-container">
+  <div class="list-header">
+    <h1 class="list-title" i18n="@@chaptersTitle">Chapters</h1>
+    <a routerLink="/admin/chapters/create" class="add-button" i18n="@@createChapterButton">
+      Create Chapter
+    </a>
+  </div>
+
+  <!-- Error message -->
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Loading indicator -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <span class="loading-text" i18n="@@loadingChapters">Loading chapters...</span>
+    </div>
+  }
+
+  <!-- Chapters list -->
+  @if (!loading && chapters.length > 0) {
+    <div class="table-container">
+      <table class="data-table">
+        <thead class="table-header">
+          <tr>
+            <th scope="col" class="table-header-cell" i18n="@@idColumn">ID</th>
+            <th scope="col" class="table-header-cell" i18n="@@titleColumn">Title</th>
+            <th scope="col" class="table-header-cell" i18n="@@pathColumn">Path</th>
+            <th scope="col" class="table-header-cell" i18n="@@actionsColumn">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          @for (chapter of paginatedChapters; track chapter.id) {
+            <tr class="table-row">
+              <td class="table-cell">{{ chapter.id }}</td>
+              <td class="table-cell">{{ chapter.title }}</td>
+              <td class="table-cell">{{ chapter.path }}</td>
+              <td class="table-cell">
+                <div class="actions-container">
+                  @if (chapter.id !== undefined) {
+                    <a [routerLink]="['/admin/chapters', chapter.id]" class="view-button" i18n="@@viewButton">View</a>
+                  }
+                  @if (chapter.id !== undefined) {
+                    <a [routerLink]="['/admin/chapters/edit', chapter.id]" class="edit-button" i18n="@@editButton">Edit</a>
+                  }
+                  @if (chapter.id !== undefined) {
+                    <button (click)="deleteChapter(chapter.id)" class="delete-button" i18n="@@deleteButton">Delete</button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Pagination is now handled by the parent component -->
+    </div>
+  }
+
+  <!-- No chapters message -->
+  @if (!loading && chapters.length === 0) {
+    <div class="empty-state">
+      <p class="empty-state-text" i18n="@@noChaptersMessage">No chapters found. Create your first chapter to get started.</p>
+    </div>
+  }
+</div>

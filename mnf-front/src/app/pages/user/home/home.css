@@ -1,0 +1,183 @@
+.home-container {
+  background-color: #fcf9f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 120px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.content-wrapper {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+
+.text-section {
+  flex: 1;
+  max-width: 480px;
+  transform: translate(50px, 0px);
+}
+
+.welcome-title {
+  font-size: 2rem;
+  color: #2d2d2d;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.highlight {
+  color: #c94d61;
+  font-weight: 500;
+}
+
+.description {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.join-btn {
+  background-color: #66c5ba;
+}
+
+.join-btn:hover {
+  background-color: #56b0a6;
+}
+
+.create-btn {
+  background-color: #c94d61;
+}
+
+.create-btn:hover {
+  background-color: #b84455;
+}
+
+.users-btn {
+  background-color: #4d7cc9;
+}
+
+.users-btn:hover {
+  background-color: #4468b8;
+}
+
+.illustration-section {
+  position: relative;
+  width: 400px;
+  height: 320px;
+  flex-shrink: 0;
+  transform: translate(-150px, 0px);
+}
+
+.main-illustration {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  width: 250px;
+  height: auto;
+}
+
+.secondary-illustration {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: auto;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .content-wrapper {
+    flex-direction: column;
+    text-align: center;
+    margin-top: 60px;
+  }
+
+  .text-section {
+    max-width: 100%;
+    transform: translate(0px);
+  }
+
+  .button-group {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .illustration-section {
+    width: 100%;
+    height: auto;
+    margin-top: 2rem;
+    display: flex;
+    transform: translate(0px);
+    justify-content: center;
+  }
+
+  .main-illustration,
+  .secondary-illustration {
+    position: relative;
+  }
+
+  .main-illustration {
+    max-width: 270px;
+    transform: translate(20px, -60px);
+  }
+
+  .secondary-illustration {
+    max-width: 220px;
+    transform: translate(-20px, 0px);
+  }
+}
+
+@media (max-width: 425px) {
+  .main-illustration {
+    max-width: 180px;
+    transform: translate(20px, -50px);
+  }
+
+  .secondary-illustration {
+    max-width: 130px;
+    transform: translate(-20px, 0px);
+  }
+
+  .text-section {
+    font-size: 12px;
+  }
+
+  .welcome-title {
+    font-size: 24px;
+  }
+}

@@ -1,0 +1,13 @@
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    container_name: newro-factory-webapp
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    volumes:
+      - ./persistence/logs:/usr/local/tomcat/logs

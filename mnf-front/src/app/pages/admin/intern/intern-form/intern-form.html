@@ -1,0 +1,127 @@
+<div class="list-container">
+  <div class="list-header border-rad">
+    <div class="header-left">
+      <h2 class="list-title">
+        <i class="material-icons header-icon">person</i>
+        {{ isEdit ? 'Edit' : 'Create' }} Intern
+      </h2>
+      <p class="form-subtitle">{{ isEdit ? 'Update intern information' : 'Create a new intern' }}</p>
+    </div>
+    <div class="header-right">
+      <a routerLink="/admin/dashboard/interns" class="add-button">
+        <span class="material-icons add-icon">arrow_back</span>
+        Back to List
+      </a>
+      <div class="container-behind"></div>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="success" class="alert alert-success">
+    {{ success }}
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <span class="loading-text">Loading...</span>
+  </div>
+
+  <form *ngIf="!loading" (ngSubmit)="saveIntern()" #internForm="ngForm" class="list-content">
+    <div class="form-group">
+      <label class="form-label" for="first_name">
+        First Name
+      </label>
+      <input
+        class="form-control"
+        [class.invalid]="firstName.invalid && (firstName.dirty || firstName.touched)"
+        id="first_name"
+        type="text"
+        name="first_name"
+        [(ngModel)]="intern.first_name"
+        required
+        #firstName="ngModel"
+        placeholder="First name">
+      <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="error-message">
+        First name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="last_name">
+        Last Name
+      </label>
+      <input
+        class="form-control"
+        [class.invalid]="lastName.invalid && (lastName.dirty || lastName.touched)"
+        id="last_name"
+        type="text"
+        name="last_name"
+        [(ngModel)]="intern.last_name"
+        required
+        #lastName="ngModel"
+        placeholder="Last name">
+      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="error-message">
+        Last name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="arrival">
+        Arrival Date
+      </label>
+      <input
+        class="form-control"
+        id="arrival"
+        type="date"
+        name="arrival"
+        [ngModel]="intern.arrival | date:'yyyy-MM-dd'"
+        (ngModelChange)="intern.arrival = $event"
+        placeholder="Arrival date">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="formation_over">
+        Formation Over Date
+      </label>
+      <input
+        class="form-control"
+        id="formation_over"
+        type="date"
+        name="formation_over"
+        [ngModel]="intern.formation_over | date:'yyyy-MM-dd'"
+        (ngModelChange)="intern.formation_over = $event"
+        placeholder="Formation over date">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="promotion_id">
+        Promotion
+      </label>
+      <select
+        class="form-control"
+        id="promotion_id"
+        name="promotion_id"
+        [(ngModel)]="intern.promotion_id">
+        <option [ngValue]="null">None</option>
+        <option *ngFor="let promotion of promotions" [ngValue]="promotion.id">{{ promotion.name }}</option>
+      </select>
+    </div>
+
+    <div class="actions-container">
+      <a routerLink="/admin/dashboard/interns" class="action-button cancel-button">
+        <span class="material-icons action-icon">cancel</span>
+        Cancel
+      </a>
+      <button
+        class="action-button submit-button"
+        type="submit"
+        [disabled]="internForm.invalid || loading">
+        <span class="material-icons action-icon">{{ isEdit ? 'update' : 'add_circle' }}</span>
+        {{ isEdit ? 'Update' : 'Create' }} Intern
+      </button>
+    </div>
+  </form>
+</div>

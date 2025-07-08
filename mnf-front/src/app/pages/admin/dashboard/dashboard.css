@@ -1,0 +1,110 @@
+/* Admin Dashboard Styles */
+.admin-dashboard {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Tab Navigation Styles */
+.crud-tabs-container {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+}
+
+/* Slider Component Styles */
+.slider-container {
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.slider-track {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: auto;
+  min-width: 450px;
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 25px;
+  border: 2px solid #427373;
+  padding: 0 12px;
+}
+
+.slider-ball {
+  position: absolute;
+  height: 40px;
+  background-color: #427373;
+  border: 2px solid #427373;
+  border-radius: 20px; /* Half of the height for a perfect pill shape */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+  z-index: 1;
+  top: calc(50% - 2px);
+  margin-top: -20px; /* Half of the height to center vertically */
+  left: 0; /* Default position to avoid being too close to the right */
+}
+
+.slider-item {
+  position: relative;
+  z-index: 2;
+  font-size: 12px;
+  padding: 8px 16px; /* Increased horizontal padding */
+  margin: 0 2px; /* Added small margin between items */
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  font-weight: 400;
+}
+
+.slider-item.active {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.slider-item:hover {
+  color: #ffffff;
+}
+
+/* Override Angular Material tab styles for dark theme */
+:host ::ng-deep .mat-mdc-tab-nav-bar {
+  border-bottom: none;
+  display: none; /* Hide the original tab nav bar */
+}
+
+/* Content area styles */
+.crud-content {
+  padding: 1rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .crud-tabs-container {
+    overflow-x: auto;
+  }
+
+  .slider-track {
+    padding: 0 10px;
+    height: 60px;
+    min-width: 100%;
+    max-width: none;
+    overflow-x: visible;
+  }
+
+  .slider-item {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .slider-ball {
+    height: 30px;
+  }
+}

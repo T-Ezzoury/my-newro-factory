@@ -1,0 +1,8 @@
+<button
+  mat-icon-button
+  [color]="isFavorite ? 'accent' : ''"
+  (click)="toggleFavorite()"
+  [disabled]="loading"
+  [matTooltip]="isFavorite ? ('favorites.remove' | translate) : ('favorites.add' | translate)">
+  <mat-icon>{{ isFavorite ? 'star' : 'star_border' }}</mat-icon>
+</button>

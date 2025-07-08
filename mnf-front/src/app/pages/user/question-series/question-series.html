@@ -1,0 +1,161 @@
+<div class="question-series-container">
+  <!-- Left panel: Chapters and Questions -->
+  <div class="left-panel">
+    <div class="panel-header">
+      <h2>Chapters & Questions</h2>
+    </div>
+
+    <!-- Chapters list -->
+    <div class="chapters-container">
+      @if (loadingChapters) {
+        <div class="loading-container">
+          <mat-spinner diameter="30"></mat-spinner>
+          <span>Loading chapters...</span>
+        </div>
+      } @else if (chapterError) {
+        <div class="error-message">{{ chapterError }}</div>
+      } @else if (chapters.length === 0) {
+        <div class="empty-message">No chapters available</div>
+      } @else {
+        <mat-accordion>
+          @for (chapter of chapters; track chapter.id) {
+            <mat-expansion-panel
+              [expanded]="selectedChapter?.id === chapter.id"
+              (opened)="loadQuestionsForChapter(chapter)">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ chapter.title }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <!-- Questions list -->
+              <div class="questions-container">
+                @if (loadingQuestions && selectedChapter?.id === chapter.id) {
+                  <div class="loading-container">
+                    <mat-spinner diameter="24"></mat-spinner>
+                    <span>Loading questions...</span>
+                  </div>
+                } @else if (questionError && selectedChapter?.id === chapter.id) {
+                  <div class="error-message">{{ questionError }}</div>
+                } @else if (chapterQuestions.length === 0 && selectedChapter?.id === chapter.id) {
+                  <div class="empty-message">No questions available for this chapter</div>
+                } @else if (selectedChapter?.id === chapter.id) {
+                  <div
+                    cdkDropList
+                    #questionsList="cdkDropList"
+                    [cdkDropListData]="chapterQuestionsAsItems"
+                    [cdkDropListConnectedTo]="['seriesList']"
+                    class="questions-list"
+                    (cdkDropListDropped)="onQuestionDrop($event)">
+                    @for (question of chapterQuestionsAsItems; track question.questionId) {
+                      <div class="question-item" cdkDrag>
+                        <div class="question-content">
+                          <div class="question-title">{{ question.title }}</div>
+                          <div class="question-statement">{{ question.statement }}</div>
+                        </div>
+                        <div class="question-actions">
+                          <button mat-icon-button cdkDragHandle>
+                            <mat-icon>drag_indicator</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+      }
+    </div>
+  </div>
+
+  <!-- Right panel: Question Series -->
+  <div class="right-panel">
+    <div class="panel-header">
+      <h2>Question Series</h2>
+    </div>
+
+    <!-- Series form -->
+    <div class="series-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Series Name</mat-label>
+        <input matInput [(ngModel)]="seriesName" placeholder="Enter series name">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="seriesDescription" placeholder="Enter description" rows="2"></textarea>
+      </mat-form-field>
+
+      <div class="form-actions">
+        @if (!currentSeries) {
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="createNewSeries()"
+            [disabled]="!seriesName.trim() || loadingSeries">
+            <mat-icon>add</mat-icon>
+            Create Series
+          </button>
+        } @else {
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="updateSeries()"
+            [disabled]="!seriesName.trim() || loadingSeries">
+            <mat-icon>save</mat-icon>
+            Update Series
+          </button>
+        }
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Series items -->
+    <div class="series-items-container">
+      <h3>Questions in this Series</h3>
+
+      @if (loadingSeries) {
+        <div class="loading-container">
+          <mat-spinner diameter="30"></mat-spinner>
+          <span>Loading series...</span>
+        </div>
+      } @else if (seriesError) {
+        <div class="error-message">{{ seriesError }}</div>
+      } @else if (!currentSeries) {
+        <div class="empty-message">Create a series to start adding questions</div>
+      } @else {
+        <div
+          cdkDropList
+          #seriesList="cdkDropList"
+          [cdkDropListData]="seriesItems"
+          [cdkDropListConnectedTo]="['questionsList']"
+          class="series-list"
+          (cdkDropListDropped)="onQuestionDrop($event)">
+          @if (seriesItems.length === 0) {
+            <div class="empty-message">Drag questions here to add them to the series</div>
+          }
+          @for (item of seriesItems; track item.questionId) {
+            <div class="series-item" cdkDrag>
+              <div class="series-item-content">
+                <div class="series-item-chapter">{{ item.chapterName }}</div>
+                <div class="series-item-title">{{ item.title }}</div>
+                <div class="series-item-statement">{{ item.statement }}</div>
+              </div>
+              <div class="series-item-actions">
+                <button mat-icon-button (click)="removeQuestion(item.questionId)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

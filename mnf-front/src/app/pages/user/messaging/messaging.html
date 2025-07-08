@@ -1,0 +1,241 @@
+<div class="messaging-container">
+  <!-- Conversations List -->
+  <div class="conversations-panel">
+    <div class="conversations-header">
+      <h2>{{ 'messaging.title' | translate }}</h2>
+      <button mat-icon-button color="primary" (click)="createNewConversation()" [matTooltip]="'messaging.newConversation' | translate">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    @if (loading) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>{{ 'messaging.loadingConversations' | translate }}</p>
+      </div>
+    } @else if (conversations.length === 0) {
+      <div class="empty-state">
+        <mat-icon class="empty-icon">forum</mat-icon>
+        <p>{{ 'messaging.noConversations' | translate }}</p>
+        <button mat-raised-button color="primary" (click)="createNewConversation()">
+          {{ 'messaging.startConversation' | translate }}
+        </button>
+      </div>
+    } @else {
+      <div class="conversations-list">
+        @for (conversation of conversations; track conversation.id) {
+          <div
+            class="conversation-item"
+            [class.active]="selectedConversation?.id === conversation.id"
+            (click)="selectConversation(conversation.id)"
+          >
+            <div class="avatar-container">
+              @if (conversation.isGroup) {
+                <div class="group-avatar">
+                  <mat-icon>group</mat-icon>
+                </div>
+              } @else {
+                <div class="user-avatar">
+                  @if (conversation.participants[1] && conversation.participants[1].avatar) {
+                    <img [src]="conversation.participants[1].avatar" [alt]="conversation.participants[1].name">
+                  } @else {
+                    <div class="avatar-placeholder">
+                      {{ conversation.participants[1] && conversation.participants[1].name ? conversation.participants[1].name.charAt(0) : '?' }}
+                    </div>
+                  }
+
+                  @if (conversation.participants[1] && conversation.participants[1].status === 'online') {
+                    <div class="status-indicator online"></div>
+                  } @else if (conversation.participants[1] && conversation.participants[1].status === 'away') {
+                    <div class="status-indicator away"></div>
+                  } @else if (conversation.participants[1] && conversation.participants[1].status === 'busy') {
+                    <div class="status-indicator busy"></div>
+                  } @else {
+                    <div class="status-indicator offline"></div>
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="conversation-details">
+              <div class="conversation-header">
+                <h3 class="conversation-title">
+                  @if (conversation.isGroup) {
+                    {{ conversation.title }}
+                  } @else {
+                    {{ conversation.participants[1] ? conversation.participants[1].name : 'Unknown' }}
+                  }
+                </h3>
+                <span class="conversation-time">{{ conversation.lastMessage ? formatDate(conversation.lastMessage.timestamp) : '' }}</span>
+              </div>
+
+              <div class="conversation-preview">
+                <p class="preview-text">
+                  @if (conversation.lastMessage) {
+                    @if (conversation.lastMessage.senderId === 1) {
+                      <span>{{ 'messaging.youPrefix' | translate }}</span>
+                    } @else if (conversation.isGroup) {
+                      <span>{{ conversation.lastMessage.senderName }}: </span>
+                    }
+                    {{ conversation.lastMessage.content }}
+                  } @else {
+                    <span class="no-messages">{{ 'messaging.noMessages' | translate }}</span>
+                  }
+                </p>
+
+                @if (conversation.unreadCount > 0) {
+                  <span class="unread-badge">{{ conversation.unreadCount }}</span>
+                }
+              </div>
+            </div>
+
+            <button mat-icon-button class="delete-button" (click)="$event.stopPropagation(); deleteConversation(conversation.id)" [matTooltip]="'messaging.deleteConversation' | translate">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Chat Window -->
+  <div class="chat-panel">
+    @if (!selectedConversation) {
+      <div class="empty-chat">
+        <mat-icon class="empty-icon">chat</mat-icon>
+        <p>{{ 'messaging.selectConversation' | translate }}</p>
+      </div>
+    } @else {
+      <div class="chat-header">
+        <div class="chat-title">
+          @if (selectedConversation.isGroup) {
+            <div class="group-avatar small">
+              <mat-icon>group</mat-icon>
+            </div>
+            <h3>{{ selectedConversation.title }}</h3>
+          } @else {
+            <div class="user-avatar small">
+              @if (selectedConversation.participants[1] && selectedConversation.participants[1].avatar) {
+                <img [src]="selectedConversation.participants[1].avatar" [alt]="selectedConversation.participants[1].name">
+              } @else {
+                <div class="avatar-placeholder small">
+                  {{ selectedConversation.participants[1] && selectedConversation.participants[1].name ? selectedConversation.participants[1].name.charAt(0) : '?' }}
+                </div>
+              }
+
+              @if (selectedConversation.participants[1] && selectedConversation.participants[1].status === 'online') {
+                <div class="status-indicator online small"></div>
+              } @else if (selectedConversation.participants[1] && selectedConversation.participants[1].status === 'away') {
+                <div class="status-indicator away small"></div>
+              } @else if (selectedConversation.participants[1] && selectedConversation.participants[1].status === 'busy') {
+                <div class="status-indicator busy small"></div>
+              } @else {
+                <div class="status-indicator offline small"></div>
+              }
+            </div>
+            <div>
+              <h3>{{ selectedConversation.participants[1] ? selectedConversation.participants[1].name : 'Unknown' }}</h3>
+              @if (selectedConversation.participants[1] && selectedConversation.participants[1].status === 'online') {
+                <span class="status-text online">{{ 'messaging.statusOnline' | translate }}</span>
+              } @else if (selectedConversation.participants[1] && selectedConversation.participants[1].status === 'away') {
+                <span class="status-text away">{{ 'messaging.statusAway' | translate }}</span>
+              } @else if (selectedConversation.participants[1] && selectedConversation.participants[1].status === 'busy') {
+                <span class="status-text busy">{{ 'messaging.statusBusy' | translate }}</span>
+              } @else {
+                <span class="status-text offline">{{ 'messaging.statusOffline' | translate }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="chat-actions">
+          <button mat-icon-button [matTooltip]="'messaging.refresh' | translate" (click)="refreshMessages(selectedConversation.id)">
+            <mat-icon>refresh</mat-icon>
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="chatMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #chatMenu="matMenu">
+            <button mat-menu-item (click)="deleteConversation(selectedConversation.id)">
+              <mat-icon>delete</mat-icon>
+              <span>{{ 'messaging.deleteConversation' | translate }}</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="messages-container">
+        @if (messagesLoading) {
+          <div class="loading-container">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>{{ 'messaging.loadingMessages' | translate }}</p>
+          </div>
+        } @else if (messages.length === 0) {
+          <div class="empty-messages">
+            <mat-icon class="empty-icon">chat_bubble_outline</mat-icon>
+            <p>{{ 'messaging.noMessagesYet' | translate }}</p>
+            <p>{{ 'messaging.startConversationHint' | translate }}</p>
+          </div>
+        } @else {
+          <div class="messages-list">
+            @for (message of messages; track message.id) {
+              <div class="message-item" [class.outgoing]="isCurrentUser(message.senderId)" [class.incoming]="!isCurrentUser(message.senderId)">
+                @if (!isCurrentUser(message.senderId)) {
+                  <div class="message-avatar">
+                    @if (selectedConversation.isGroup) {
+                      @if (getParticipantAvatar(message.senderId)) {
+                        <img [src]="getParticipantAvatar(message.senderId)" [alt]="getParticipantName(message.senderId)">
+                      } @else {
+                        <div class="avatar-placeholder small">
+                          {{ getParticipantInitial(message.senderId) }}
+                        </div>
+                      }
+                    } @else {
+                      @if (selectedConversation.participants[1] && selectedConversation.participants[1].avatar) {
+                        <img [src]="selectedConversation.participants[1].avatar" [alt]="selectedConversation.participants[1].name">
+                      } @else {
+                        <div class="avatar-placeholder small">
+                          {{ selectedConversation.participants[1] && selectedConversation.participants[1].name ? selectedConversation.participants[1].name.charAt(0) : '?' }}
+                        </div>
+                      }
+                    }
+                  </div>
+                }
+
+                <div class="message-content">
+                  @if (selectedConversation.isGroup && !isCurrentUser(message.senderId)) {
+                    <div class="message-sender">{{ message.senderName }}</div>
+                  }
+                  <div class="message-bubble">
+                    <p>{{ message.content }}</p>
+                    <span class="message-time">{{ formatDate(message.timestamp) }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="message-input">
+        <mat-form-field appearance="outline" class="message-field">
+          <input
+            matInput
+            [(ngModel)]="newMessage"
+            [placeholder]="'messaging.typeMessage' | translate"
+            (keyup.enter)="sendMessage()"
+          >
+        </mat-form-field>
+        <button
+          mat-icon-button
+          color="primary"
+          [disabled]="!newMessage.trim()"
+          (click)="sendMessage()"
+          [matTooltip]="'messaging.sendMessage' | translate"
+        >
+          <mat-icon>send</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+</div>

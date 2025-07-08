@@ -1,0 +1,129 @@
+{
+  "app": {
+    "title": "Quiz Learning Fast",
+    "welcome": "Bienvenue sur Quiz Learning Fast"
+  },
+  "home": {
+    "welcome": "Bienvenue sur",
+    "appName": "QLF (Quiz Learning Fast)",
+    "description": "L'application idéale pour",
+    "learningEffective": "apprendre efficacement",
+    "aloneOrGroup": ", seul ou en",
+    "group": "groupe",
+    "createQuiz": "Créez votre propre quiz",
+    "or": "ou",
+    "joinQuiz": "rejoignez-en",
+    "withCode": "un à l'aide d'un code.",
+    "startNow": "Commencez dès maintenant",
+    "joinQuizBtn": "Rejoindre un quizz",
+    "createQuizBtn": "Créer un quizz",
+    "usersBtn": "Voir les utilisateurs"
+  },
+  "nav": {
+    "home": "Accueil",
+    "messages": "Messages",
+    "about": "À propos",
+    "contact": "Contact",
+    "profile": "Profil"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "createAccount": "Créer un compte",
+    "welcome": "Bienvenue",
+    "signInOrCreate": "Connectez-vous ou créez un compte"
+  },
+  "footer": {
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "copyright": "© 2025 Quiz Learning Fast. Tous droits réservés."
+  },
+  "common": {
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "required": "Ce champ est obligatoire",
+    "invalidEmail": "Veuillez entrer une adresse email valide",
+    "passwordMinLength": "Le mot de passe doit contenir au moins {{length}} caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas"
+  },
+  "language": {
+    "select": "Sélectionner la langue",
+    "french": "Français",
+    "english": "Anglais"
+  },
+  "error": {
+    "notFound": {
+      "title": "Page Non Trouvée",
+      "message": "La page que vous recherchez n'existe pas ou a été déplacée."
+    },
+    "general": {
+      "title": "Une Erreur Est Survenue",
+      "message": "Nous sommes désolés, mais quelque chose s'est mal passé. Veuillez réessayer plus tard."
+    },
+    "code": "Code d'Erreur",
+    "backToHome": "Retour à l'Accueil"
+  },
+  "messaging": {
+    "title": "Messages",
+    "newConversation": "Nouvelle Conversation",
+    "startConversation": "Démarrer une conversation",
+    "noConversations": "Aucune conversation pour le moment",
+    "loadingConversations": "Chargement des conversations...",
+    "selectConversation": "Sélectionnez une conversation pour commencer à discuter",
+    "loadingMessages": "Chargement des messages...",
+    "noMessagesYet": "Pas encore de messages",
+    "startConversationHint": "Envoyez un message pour démarrer la conversation",
+    "typeMessage": "Tapez un message...",
+    "sendMessage": "Envoyer le Message",
+    "deleteConversation": "Supprimer la Conversation",
+    "refresh": "Actualiser",
+    "youPrefix": "Vous: ",
+    "noMessages": "Pas encore de messages",
+    "statusOnline": "En ligne",
+    "statusOffline": "Hors ligne",
+    "statusAway": "Absent",
+    "statusBusy": "Occupé"
+  },
+  "profile": {
+    "title": "Mon Profil",
+    "edit": "Modifier le Profil",
+    "save": "Enregistrer les Modifications",
+    "cancel": "Annuler",
+    "logout": "Déconnexion",
+    "name": "Nom",
+    "email": "Email",
+    "notAuthenticated": "Vous n'êtes pas authentifié. Veuillez vous connecter pour voir votre profil.",
+    "goToHome": "Aller à l'Accueil"
+  },
+  "favorites": {
+    "title": "Mes Favoris",
+    "add": "Ajouter aux favoris",
+    "remove": "Retirer des favoris",
+    "empty": "Vous n'avez pas encore de favoris.",
+    "goToHome": "Aller à l'Accueil"
+  },
+  "userList": {
+    "title": "Liste des Utilisateurs",
+    "search": "Rechercher des utilisateurs",
+    "searchPlaceholder": "Entrez un nom d'utilisateur",
+    "favorites": "Favoris",
+    "otherUsers": "Autres Utilisateurs",
+    "noFavorites": "Vous n'avez pas encore de favoris.",
+    "noUsers": "Aucun utilisateur trouvé.",
+    "close": "Fermer",
+    "alreadyInFavorites": "Déjà dans les favoris",
+    "addToFavorites": "Ajouter aux favoris"
+  }
+}

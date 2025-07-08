@@ -1,0 +1,32 @@
+.theme-toggle-button {
+  margin: 0 8px;
+  color: var(--text-color);
+  background-color: transparent;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  transform: rotate(15deg);
+}
+
+.theme-toggle-button mat-icon {
+  font-size: 24px;
+}
+
+/* Ensure mat-toolbar changes appearance based on theme */
+.mat-mdc-toolbar {
+  background-color: var(--mat-toolbar-bg) !important;
+  color: var(--text-color) !important;
+}
+
+/* Ensure mat-sidenav changes appearance based on theme */
+.mat-mdc-sidenav {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* Ensure mat-sidenav-content changes appearance based on theme */
+.mat-mdc-sidenav-content {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}

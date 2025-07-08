@@ -1,0 +1,211 @@
+<div class="list-container">
+
+  <!-- Enhanced header with dynamic title and add button -->
+  <div class="list-header border-rad">
+    <div class="header-left">
+      <h2 class="list-title">
+        <i class="header-icon" [ngClass]="getHeaderIcon()"></i>
+        {{ getActiveTabTitle() }}
+      </h2>
+    </div>
+    <div class="header-right">
+      <a [routerLink]="getAddButtonLink()" class="add-button">
+        <span class="material-icons add-icon">add_circle</span>
+        <span>{{ getAddButtonText() }}</span>
+      </a>
+      <div class="container-behind"></div>
+    </div>
+  </div>
+
+  <!-- Enhanced empty state message -->
+  @if (!loading && items.length === 0) {
+    <div class="empty-state">
+      <span class="material-icons empty-icon">folder_open</span>
+      <p class="empty-state-text">No {{ getActiveTabTitle().toLowerCase() }} found.</p>
+      <p class="empty-state-subtext">Create your first {{ getSingularTabName() }} to get started.</p>
+      <a [routerLink]="getAddButtonLink()" class="empty-state-button">
+        <span class="material-icons">add_circle</span>
+        <span>{{ getAddButtonText() }}</span>
+      </a>
+    </div>
+  }
+
+  <!-- Enhanced list content with dynamic data -->
+  <div class="list-content">
+    @if (!loading && items.length > 0) {
+      <div class="table-container">
+        <table class="data-table">
+          <thead class="table-header">
+            <tr>
+              <th scope="col" class="table-header-cell checkbox-header">
+                <div class="header-cell-content">
+                  <button (click)="deleteSelectedItems()" class="action-button delete-button" title="Delete selected items">
+                    <span class="material-icons action-icon">delete</span>
+                  </button>
+                </div>
+              </th>
+              @for (column of getTableColumns(); track column.key) {
+                @if (column.key !== 'id') {
+                  <th scope="col" class="table-header-cell">
+                    <div class="header-cell-content">
+                      <span>{{ column.label }}</span>
+                    </div>
+                  </th>
+                }
+              }
+              <th scope="col" class="table-header-cell edit-header"></th>
+            </tr>
+          </thead>
+          <tbody class="table-body">
+            @for (item of paginatedItems; track item.id) {
+              <tr class="table-row" [class]="'table-row-' + activeTab" [class.selected-row]="isSelected(item.id)">
+                <td class="table-cell checkbox-cell">
+                  @if (item.id !== undefined) {
+                    <input
+                      type="checkbox"
+                      [checked]="isSelected(item.id)"
+                      (change)="toggleSelection(item.id)"
+                      class="select-checkbox"
+                    />
+                  }
+                </td>
+                @for (column of getTableColumns(); track column.key) {
+                  @if (column.key !== 'id') {
+                    <td class="table-cell">
+                      @if (column.format === 'date') {
+                        <span class="date-value">{{ item[column.key] | date }}</span>
+                      } @else {
+                        <span [class]="column.key + '-value'">{{ getItemProperty(item, column.key) }}</span>
+                      }
+                    </td>
+                  }
+                }
+                <td class="table-cell edit-cell">
+                  @if (item.id !== undefined) {
+                    <button (click)="editItem(item.id)" class="action-button edit-button" title="Edit">
+                      <span class="material-icons action-icon">edit</span>
+                    </button>
+                    @if (activeTab === 'users') {
+                      <app-favorite-button
+                        [userId]="item.id"
+                        [userName]="item.name"
+                        [userEmail]="item.email">
+                      </app-favorite-button>
+                    }
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <!-- Enhanced pagination -->
+        <div class="pagination-wrapper">
+          <div class="pagination-left">
+            <div class="page-size-selector">
+              <label for="pageSize">Items per page:</label>
+              <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+            <div class="pagination-info">
+              @if (totalItems > 0) {
+                Showing {{ (currentPage - 1) * pageSize + 1 }} to {{ Math.min(currentPage * pageSize, totalItems) }} of {{ totalItems }} {{ getActiveTabTitle().toLowerCase() }}
+              } @else {
+                No {{ getActiveTabTitle().toLowerCase() }} to display
+              }
+            </div>
+          </div>
+          <div class="pagination-controls">
+            <app-pagination
+              [currentPage]="currentPage"
+              [pageSize]="pageSize"
+              [totalItems]="totalItems"
+              [totalPages]="totalPages"
+              (pageChange)="onPageChange($event)"
+              class="enhanced-pagination"
+            ></app-pagination>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Hidden components to load data -->
+    <div style="display: none;">
+      @if (activeTab === 'interns') {
+        <app-intern-list
+          #internList
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (paginationChange)="updatePagination($event.totalItems, $event.totalPages)"
+        ></app-intern-list>
+      }
+
+      @if (activeTab === 'promotions') {
+        <app-promotion-list
+          #promotionList
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (paginationChange)="updatePagination($event.totalItems, $event.totalPages)"
+        ></app-promotion-list>
+      }
+
+      @if (activeTab === 'chapters') {
+        <app-chapter-list
+          #chapterList
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (paginationChange)="updatePagination($event.totalItems, $event.totalPages)"
+        ></app-chapter-list>
+      }
+
+      @if (activeTab === 'questions') {
+        <app-question-list
+          #questionList
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (paginationChange)="updatePagination($event.totalItems, $event.totalPages)"
+        ></app-question-list>
+      }
+
+      @if (activeTab === 'answers') {
+        <app-answer-list
+          #answerList
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (paginationChange)="updatePagination($event.totalItems, $event.totalPages)"
+        ></app-answer-list>
+      }
+
+      @if (activeTab === 'admins') {
+        <app-admin-list
+          #adminList
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (paginationChange)="updatePagination($event.totalItems, $event.totalPages)"
+        ></app-admin-list>
+      }
+
+      @if (activeTab === 'users') {
+        <app-user-list
+          #userList
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (paginationChange)="updatePagination($event.totalItems, $event.totalPages)"
+        ></app-user-list>
+      }
+
+      @if (activeTab === 'favorites') {
+        <app-favorites-list
+          #favoritesList
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (paginationChange)="updatePagination($event.totalItems, $event.totalPages)"
+        ></app-favorites-list>
+      }
+    </div>
+  </div>
+</div>

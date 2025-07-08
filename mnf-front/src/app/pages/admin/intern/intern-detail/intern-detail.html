@@ -1,0 +1,78 @@
+<div class="intern-detail">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Intern Details</h2>
+    <div class="flex space-x-2">
+      <a routerLink="/admin/interns" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+        Back to List
+      </a>
+      <a *ngIf="intern" [routerLink]="['/admin/interns/edit', intern.id]" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Edit
+      </a>
+      <button *ngIf="intern" (click)="deleteIntern()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="text-center py-4">
+    <p>Loading...</p>
+  </div>
+
+  <div *ngIf="!loading && intern" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="mb-4">
+      <h3 class="text-lg font-bold mb-2">Intern Information</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">ID:</p>
+          <p>{{ intern.id }}</p>
+        </div>
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">First Name:</p>
+          <p>{{ intern.first_name }}</p>
+        </div>
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">Last Name:</p>
+          <p>{{ intern.last_name }}</p>
+        </div>
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">Arrival Date:</p>
+          <p>{{ intern.arrival | date }}</p>
+        </div>
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">Formation Over Date:</p>
+          <p>{{ intern.formation_over | date }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8" *ngIf="promotion">
+      <h3 class="text-lg font-bold mb-2">Promotion Information</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">Promotion ID:</p>
+          <p>{{ promotion.id }}</p>
+        </div>
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">Promotion Name:</p>
+          <p>{{ promotion.name }}</p>
+        </div>
+        <div>
+          <p class="text-gray-700 text-sm font-bold mb-1">View Promotion:</p>
+          <p><a [routerLink]="['/admin/promotions', promotion.id]" class="text-blue-500 hover:text-blue-700">View Promotion Details</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8" *ngIf="!promotion && intern.promotion_id">
+      <p class="text-yellow-600">Promotion information could not be loaded.</p>
+    </div>
+
+    <div class="mt-8" *ngIf="!intern.promotion_id">
+      <p class="text-gray-600">This intern is not assigned to any promotion.</p>
+    </div>
+  </div>
+</div>

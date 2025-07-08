@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-newro
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Qwerty1234
+      MYSQL_DATABASE: newro-factory-db
+      MYSQL_USER: adminnewro
+      MYSQL_PASSWORD: Qwerty1234
+    ports:
+      - "33006:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "adminnewro", "-pQwerty1234"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 40s
+
+  app:
+    build: ./app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+    command: ["python3", "script.py"]
+    volumes:
+      - ./app:/app
+
+volumes:
+  mysql-data:

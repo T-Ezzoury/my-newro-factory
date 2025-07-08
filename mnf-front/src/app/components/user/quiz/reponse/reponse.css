@@ -1,0 +1,44 @@
+.reponse-button {
+  padding: 10px;
+  font-size: large;
+  background-color: var(--background-color);
+  color: #284f4f;
+  border: 2px solid var(--primary-color);
+  width: 100%;
+}
+
+.reponse-button:hover {
+  background-color: var(--surface-color);
+}
+
+.reponse-button.selected {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.reponse-button.correct {
+  /* vert */
+  border-color: #284f2f;
+  color: var(--background-color);
+  background-color: #4c8250;
+  pointer-events: none;
+}
+
+.reponse-button.incorrect {
+  /* rouge clair */
+  background-color: var(--secondary-color);
+  border-color: #ff002b;
+  color: var(--background-color);
+  pointer-events: none;
+}
+
+.reponse-button.missed {
+  background-color: #acdca2; /* vert très clair */
+  border-color: #284f2f;
+  color: #284f2f;
+  pointer-events: none;
+}
+
+.reponse-button.validated {
+  pointer-events: none;
+}

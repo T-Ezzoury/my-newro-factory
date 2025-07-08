@@ -1,0 +1,24 @@
+<div class="admin-dashboard">
+  <!-- Tab slider for CRUD navigation -->
+  <div class="crud-tabs-container bg-gray-800 py-2 px-4 shadow-md">
+    <div class="slider-container">
+      <div class="slider-track">
+        <div class="slider-ball" [style.left.%]="ballPosition" [style.width.px]="ballWidth"></div>
+        @for (link of navLinks; track link.path; let i = $index) {
+          <div class="slider-item"
+               #sliderItem
+               [class.active]="activeLink === link.path"
+               (click)="navigateTo(link.path); moveBall(i)">
+            {{link.label}}
+          </div>
+        }
+      </div>
+    </div>
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  </div>
+
+  <!-- Content area for the selected CRUD interface -->
+  <div class="crud-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+<div class="list-container">
+  <div class="list-header border-rad">
+    <div class="header-left">
+      <h2 class="list-title">
+        <i class="material-icons header-icon">book</i>
+        {{ isEditMode ? 'Edit Chapter' : 'Create Chapter' }}
+      </h2>
+      <p class="form-subtitle" i18n="@@chapterFormSubtitle">
+        {{ isEditMode ? 'Update the chapter information below' : 'Fill in the chapter information below' }}
+      </p>
+    </div>
+    <div class="header-right">
+      <a routerLink="/admin/dashboard/chapters" class="add-button">
+        <span class="material-icons add-icon">arrow_back</span>
+        Back to List
+      </a>
+      <div class="container-behind"></div>
+    </div>
+  </div>
+
+  <!-- Error message -->
+  @if (error) {
+    <div class="alert alert-error">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Success message -->
+  @if (success) {
+    <div class="alert alert-success">
+      {{ success }}
+    </div>
+  }
+
+  <!-- Loading indicator -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <span class="loading-text" i18n="@@loadingChapter">Loading...</span>
+    </div>
+  }
+
+  <form [formGroup]="chapterForm" (ngSubmit)="onSubmit()" class="list-content">
+    <!-- Title field -->
+    <div class="form-group">
+      <label for="title" class="form-label" i18n="@@chapterTitleLabel">
+        Title *
+      </label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        class="form-control"
+        [class.invalid]="chapterForm.get('title')?.invalid && chapterForm.get('title')?.touched"
+      />
+      @if (chapterForm.get('title')?.invalid && chapterForm.get('title')?.touched) {
+        <p class="error-message" i18n="@@titleRequiredError">
+          Title is required and must be at least 3 characters.
+        </p>
+      }
+    </div>
+
+    <!-- Path field -->
+    <div class="form-group">
+      <label for="path" class="form-label" i18n="@@chapterPathLabel">
+        Path *
+      </label>
+      <input
+        type="text"
+        id="path"
+        formControlName="path"
+        class="form-control"
+        [class.invalid]="chapterForm.get('path')?.invalid && chapterForm.get('path')?.touched"
+      />
+      @if (chapterForm.get('path')?.invalid && chapterForm.get('path')?.touched) {
+        <p class="error-message" i18n="@@pathRequiredError">
+          Path is required.
+        </p>
+      }
+    </div>
+
+    <!-- Parent Path field -->
+    <div class="form-group">
+      <label for="parentPath" class="form-label" i18n="@@parentPathLabel">
+        Parent Path
+      </label>
+      <input
+        type="text"
+        id="parentPath"
+        formControlName="parentPath"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Content field -->
+    <div class="form-group">
+      <label for="content" class="form-label" i18n="@@contentLabel">
+        Content
+      </label>
+      <textarea
+        id="content"
+        formControlName="content"
+        rows="6"
+        class="form-control"
+      ></textarea>
+    </div>
+
+    <!-- Form actions -->
+    <div class="actions-container">
+      <a
+        routerLink="/admin/dashboard/chapters"
+        class="action-button cancel-button"
+        i18n="@@cancelButton"
+      >
+        <span class="material-icons action-icon">cancel</span>
+        Cancel
+      </a>
+      <button
+        type="submit"
+        [disabled]="chapterForm.invalid || loading"
+        class="action-button submit-button"
+        i18n="@@saveButton"
+      >
+        <span class="material-icons action-icon">{{ isEditMode ? 'update' : 'add_circle' }}</span>
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </form>
+</div>

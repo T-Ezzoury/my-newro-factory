@@ -1,0 +1,16 @@
+<div class="quiz-container">
+  <div class="text-question">
+    <p>Ceci est une question</p>
+  </div>
+  <div class="reponse-container">
+    @for (reponse of reponses; track $index) {
+    <app-reponse
+      [reponse]="reponse"
+      (click)="!isValidated() && toggleAnswer(reponse)"
+      [selected]="isSelected(reponse)"
+      [class]="getAnswerClass(reponse)"
+    ></app-reponse>
+    }
+  </div>
+  <button class="valider-button" (click)="validate()">Valider</button>
+</div>

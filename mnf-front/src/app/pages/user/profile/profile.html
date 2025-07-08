@@ -1,0 +1,151 @@
+<div class="profile-container">
+  <div class="content-wrapper">
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <h1 class="profile-title">
+        {{ 'profile.title' | translate }}
+      </h1>
+
+      @if (user) {
+        <div class="profile-content">
+          <!-- View Mode -->
+          @if (!isEditing) {
+            <div class="profile-info">
+              <div class="profile-avatar">
+                <mat-icon class="avatar-icon">account_circle</mat-icon>
+              </div>
+              <div class="profile-details">
+                <h2 class="profile-name">{{ user.name || 'User' }}</h2>
+                <div class="profile-section">
+                  <h3 class="section-title">{{ 'profile.personalInfo' | translate }}</h3>
+                  <p class="profile-detail">
+                    <span class="detail-label">{{ 'profile.firstName' | translate }}:</span>
+                    <span class="detail-value">{{ user.firstName || '-' }}</span>
+                  </p>
+                  <p class="profile-detail">
+                    <span class="detail-label">{{ 'profile.lastName' | translate }}:</span>
+                    <span class="detail-value">{{ user.lastName || '-' }}</span>
+                  </p>
+                </div>
+
+                <div class="profile-section">
+                  <h3 class="section-title">{{ 'profile.contactInfo' | translate }}</h3>
+                  <p class="profile-detail">
+                    <span class="detail-label">{{ 'profile.email' | translate }}:</span>
+                    <span class="detail-value">{{ user.email }}</span>
+                  </p>
+                  <p class="profile-detail">
+                    <span class="detail-label">{{ 'profile.phone' | translate }}:</span>
+                    <span class="detail-value">{{ user.phone || '-' }}</span>
+                  </p>
+                </div>
+
+                <div class="profile-section">
+                  <h3 class="section-title">{{ 'profile.accountInfo' | translate }}</h3>
+                  <p class="profile-detail">
+                    <span class="detail-label">{{ 'profile.role' | translate }}:</span>
+                    <span class="detail-value">{{ user.role || 'User' }}</span>
+                  </p>
+                  <p class="profile-detail">
+                    <span class="detail-label">{{ 'profile.id' | translate }}:</span>
+                    <span class="detail-value">{{ user.id }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="profile-actions">
+              <button mat-raised-button color="primary" (click)="toggleEditMode()" class="edit-button">
+                <mat-icon>edit</mat-icon>
+                {{ 'profile.edit' | translate }}
+              </button>
+              <button mat-raised-button color="warn" (click)="logout()" class="logout-button">
+                <mat-icon>exit_to_app</mat-icon>
+                {{ 'profile.logout' | translate }}
+              </button>
+            </div>
+          }
+
+          <!-- Edit Mode -->
+          @if (isEditing) {
+            <div class="profile-form">
+              <div class="form-section">
+                <h3 class="section-title">{{ 'profile.personalInfo' | translate }}</h3>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>{{ 'profile.firstName' | translate }}</mat-label>
+                    <input matInput [(ngModel)]="user.firstName" placeholder="Your first name">
+                    <mat-icon matSuffix>person</mat-icon>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>{{ 'profile.lastName' | translate }}</mat-label>
+                    <input matInput [(ngModel)]="user.lastName" placeholder="Your last name">
+                    <mat-icon matSuffix>person</mat-icon>
+                  </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline" class="form-field full-width">
+                  <mat-label>{{ 'profile.displayName' | translate }}</mat-label>
+                  <input matInput [(ngModel)]="user.name" placeholder="Your display name">
+                  <mat-icon matSuffix>badge</mat-icon>
+                  <mat-hint>{{ 'profile.displayNameHint' | translate }}</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-section">
+                <h3 class="section-title">{{ 'profile.contactInfo' | translate }}</h3>
+
+                <mat-form-field appearance="outline" class="form-field full-width">
+                  <mat-label>{{ 'profile.email' | translate }}</mat-label>
+                  <input matInput [(ngModel)]="user.email" placeholder="Your email" type="email">
+                  <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="form-field full-width">
+                  <mat-label>{{ 'profile.phone' | translate }}</mat-label>
+                  <input matInput [(ngModel)]="user.phone" placeholder="Your phone number" type="tel">
+                  <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="form-section">
+                <h3 class="section-title">{{ 'profile.accountInfo' | translate }}</h3>
+
+                <div class="account-info">
+                  <p class="account-detail">
+                    <span class="detail-label">{{ 'profile.role' | translate }}:</span>
+                    <span class="detail-value">{{ user.role || 'User' }}</span>
+                  </p>
+                  <p class="account-detail">
+                    <span class="detail-label">{{ 'profile.id' | translate }}:</span>
+                    <span class="detail-value">{{ user.id }}</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button mat-raised-button color="primary" (click)="saveProfile()" class="save-button">
+                  <mat-icon>save</mat-icon>
+                  {{ 'profile.save' | translate }}
+                </button>
+                <button mat-raised-button (click)="toggleEditMode()" class="cancel-button">
+                  <mat-icon>cancel</mat-icon>
+                  {{ 'profile.cancel' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="profile-error">
+          <p>{{ 'profile.notAuthenticated' | translate }}</p>
+          <button mat-raised-button color="primary" (click)="goToHome()" class="home-button">
+            <mat-icon>home</mat-icon>
+            {{ 'profile.goToHome' | translate }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</div>

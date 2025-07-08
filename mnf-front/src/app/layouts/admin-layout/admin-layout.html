@@ -1,0 +1,12 @@
+<div class="admin-layout" [attr.data-theme]="isDarkMode ? 'dark' : 'light'">
+  <app-admin-header (themeChanged)="onThemeChanged($event)"></app-admin-header>
+
+  <main class="container mx-auto px-4 py-8 min-h-screen" [ngClass]="{'bg-gray-900 text-gray-200': isDarkMode, 'bg-gray-100 text-gray-800': !isDarkMode}">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!--<app-admin-footer></app-admin-footer>-->
+
+  <!-- Notification component -->
+  <app-notification></app-notification>
+</div>

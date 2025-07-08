@@ -1,0 +1,100 @@
+<div class="environment-switcher-container">
+  <mat-card class="environment-card">
+    <mat-card-header>
+      <mat-card-title i18n="@@environmentSwitcherTitle">Environment Switcher</mat-card-title>
+      <mat-card-subtitle i18n="@@environmentSwitcherSubtitle">Switch between different API environments</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (currentConfig) {
+        <div class="current-environment">
+          <h3 i18n="@@currentEnvironmentTitle">Current Environment</h3>
+          <p><strong i18n="@@nameLabel">Name:</strong> {{ currentConfig.name }}</p>
+          <p><strong i18n="@@apiUrlLabel">API URL:</strong> {{ currentConfig.apiBaseUrl }}</p>
+          <p><strong i18n="@@productionLabel">Production:</strong>
+            @if (currentConfig.production) {
+              <span i18n="@@yesLabel">Yes</span>
+            } @else {
+              <span i18n="@@noLabel">No</span>
+            }
+          </p>
+        </div>
+      }
+
+      <div class="environment-selector">
+        <mat-form-field appearance="fill">
+          <mat-label i18n="@@selectEnvironmentLabel">Select Environment</mat-label>
+          <mat-select [(ngModel)]="selectedEnvironment">
+            @for (env of environments; track env) {
+              <mat-option [value]="env">
+                @switch (env) {
+                  @case ('default') {
+                    <span i18n="@@envDefault">Default</span>
+                  }
+                  @case ('local') {
+                    <span i18n="@@envLocal">Local</span>
+                  }
+                  @case ('dev') {
+                    <span i18n="@@envDev">Development</span>
+                  }
+                  @case ('preprod') {
+                    <span i18n="@@envPreprod">Pre-production</span>
+                  }
+                  @case ('production') {
+                    <span i18n="@@envProduction">Production</span>
+                  }
+                  @default {
+                    {{ env }}
+                  }
+                }
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="changeEnvironment()" i18n="@@switchEnvironmentButton">
+          Switch Environment
+        </button>
+      </div>
+
+      <div class="api-test">
+        <h3 i18n="@@apiTestTitle">API Test</h3>
+        <button mat-raised-button color="accent" (click)="fetchUsers()" [disabled]="loading" i18n="@@fetchUsersButton">
+          Fetch Users
+        </button>
+
+        @if (loading) {
+          <div class="loading">
+            <mat-spinner diameter="30"></mat-spinner>
+            <span i18n="@@loadingLabel">Loading...</span>
+          </div>
+        }
+
+        @if (error) {
+          <div class="error">
+            <mat-error>{{ error }}</mat-error>
+          </div>
+        }
+
+        @if (users.length > 0) {
+          <div class="users">
+            <h4 i18n="@@usersTitle">Users</h4>
+            <mat-list>
+              @for (user of users; track user.id) {
+                <mat-list-item>
+                  {{ user.name }} ({{ user.email }})
+                </mat-list-item>
+              }
+            </mat-list>
+          </div>
+        }
+
+        @if (!loading && !error && users.length === 0) {
+          <div class="no-users">
+            <p i18n="@@noUsersMessage">No users found. Try fetching users or switching to a different environment.</p>
+          </div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,8 @@
+# Pour faire fonctionner le projet : 
+## Fichiers properties : 
+Il manque 2 fichiers properties, pour chacun il y a un xx-exemple.properties. 
+Je vous ai envoyé les valeurs à mettre dedans. 
+
+## La BDD
+J'ai modifié le format des valeurs des chapitres dans la bdd. Vous avez maintenant les valeurs dans config/db/ENTRIES_NEW.sql 
+qui fait :  DROP IF EXISTES -> CREATE TABLE -> INSERT. 

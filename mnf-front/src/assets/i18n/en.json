@@ -1,0 +1,129 @@
+{
+  "app": {
+    "title": "Quiz Learning Fast",
+    "welcome": "Welcome to Quiz Learning Fast"
+  },
+  "home": {
+    "welcome": "Welcome to",
+    "appName": "QLF (Quiz Learning Fast)",
+    "description": "The ideal application for",
+    "learningEffective": "effective learning",
+    "aloneOrGroup": ", alone or in a",
+    "group": "group",
+    "createQuiz": "Create your own quiz",
+    "or": "or",
+    "joinQuiz": "join one",
+    "withCode": "using a code.",
+    "startNow": "Start now",
+    "joinQuizBtn": "Join a quiz",
+    "createQuizBtn": "Create a quiz",
+    "usersBtn": "View Users"
+  },
+  "nav": {
+    "home": "Home",
+    "messages": "Messages",
+    "about": "About",
+    "contact": "Contact",
+    "profile": "Profile"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot Password?",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "createAccount": "Create an Account",
+    "welcome": "Welcome",
+    "signInOrCreate": "Sign in to your account or create a new one"
+  },
+  "footer": {
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "copyright": "© 2025 Quiz Learning Fast. All rights reserved."
+  },
+  "common": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "passwordMinLength": "Password must be at least {{length}} characters long",
+    "passwordMismatch": "Passwords do not match"
+  },
+  "language": {
+    "select": "Select Language",
+    "french": "French",
+    "english": "English"
+  },
+  "error": {
+    "notFound": {
+      "title": "Page Not Found",
+      "message": "The page you are looking for does not exist or has been moved."
+    },
+    "general": {
+      "title": "An Error Occurred",
+      "message": "We're sorry, but something went wrong. Please try again later."
+    },
+    "code": "Error Code",
+    "backToHome": "Back to Home"
+  },
+  "messaging": {
+    "title": "Messages",
+    "newConversation": "New Conversation",
+    "startConversation": "Start a conversation",
+    "noConversations": "No conversations yet",
+    "loadingConversations": "Loading conversations...",
+    "selectConversation": "Select a conversation to start chatting",
+    "loadingMessages": "Loading messages...",
+    "noMessagesYet": "No messages yet",
+    "startConversationHint": "Send a message to start the conversation",
+    "typeMessage": "Type a message...",
+    "sendMessage": "Send Message",
+    "deleteConversation": "Delete Conversation",
+    "refresh": "Refresh",
+    "youPrefix": "You: ",
+    "noMessages": "No messages yet",
+    "statusOnline": "Online",
+    "statusOffline": "Offline",
+    "statusAway": "Away",
+    "statusBusy": "Busy"
+  },
+  "profile": {
+    "title": "My Profile",
+    "edit": "Edit Profile",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "logout": "Logout",
+    "name": "Name",
+    "email": "Email",
+    "notAuthenticated": "You are not authenticated. Please login to view your profile.",
+    "goToHome": "Go to Home"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites",
+    "empty": "You don't have any favorites yet.",
+    "goToHome": "Go to Home"
+  },
+  "userList": {
+    "title": "User List",
+    "search": "Search users",
+    "searchPlaceholder": "Enter user name",
+    "favorites": "Favorites",
+    "otherUsers": "Other Users",
+    "noFavorites": "You don't have any favorites yet.",
+    "noUsers": "No users found.",
+    "close": "Close",
+    "alreadyInFavorites": "Already in favorites",
+    "addToFavorites": "Add to favorites"
+  }
+}

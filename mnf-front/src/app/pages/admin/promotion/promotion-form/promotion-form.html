@@ -1,0 +1,66 @@
+<div class="list-container">
+  <div class="list-header border-rad">
+    <div class="header-left">
+      <h2 class="list-title">
+        <i class="material-icons header-icon">school</i>
+        {{ isEdit ? 'Edit' : 'Create' }} Promotion
+      </h2>
+      <p class="form-subtitle">{{ isEdit ? 'Update promotion information' : 'Create a new promotion' }}</p>
+    </div>
+    <div class="header-right">
+      <a routerLink="/admin/dashboard/promotions" class="add-button">
+        <span class="material-icons add-icon">arrow_back</span>
+        Back to List
+      </a>
+      <div class="container-behind"></div>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="success" class="alert alert-success">
+    {{ success }}
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <span class="loading-text">Loading...</span>
+  </div>
+
+  <form *ngIf="!loading" (ngSubmit)="savePromotion()" #promotionForm="ngForm" class="list-content">
+    <div class="form-group">
+      <label class="form-label" for="name">
+        Name
+      </label>
+      <input
+        class="form-control"
+        [class.invalid]="name.invalid && (name.dirty || name.touched)"
+        id="name"
+        type="text"
+        name="name"
+        [(ngModel)]="promotion.name"
+        required
+        #name="ngModel"
+        placeholder="Promotion name">
+      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error-message">
+        Name is required
+      </div>
+    </div>
+
+    <div class="actions-container">
+      <a routerLink="/admin/dashboard/promotions" class="action-button cancel-button">
+        <span class="material-icons action-icon">cancel</span>
+        Cancel
+      </a>
+      <button
+        class="action-button submit-button"
+        type="submit"
+        [disabled]="promotionForm.invalid || loading">
+        <span class="material-icons action-icon">{{ isEdit ? 'update' : 'add_circle' }}</span>
+        {{ isEdit ? 'Update' : 'Create' }} Promotion
+      </button>
+    </div>
+  </form>
+</div>

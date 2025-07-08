@@ -1,0 +1,34 @@
+<div class="list-container">
+  <!-- Tab slider for auth navigation -->
+  <div class="crud-tabs-container bg-gray-800 py-2 px-4 shadow-md">
+    <div class="slider-container">
+      <div class="slider-track">
+        <div class="slider-ball" [style.left.%]="ballPosition" [style.width.px]="ballWidth"></div>
+        <div class="slider-item"
+             #sliderItem
+             [class.active]="showLogin"
+             (click)="navigateTo(true)">
+          {{ 'auth.login' | translate }}
+        </div>
+        <div class="slider-item"
+             #sliderItem
+             [class.active]="!showLogin"
+             (click)="navigateTo(false)">
+          {{ 'auth.createAccount' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="list-content">
+    <div class="form-container">
+      <div class="auth-form-container">
+        @if (showLogin) {
+          <app-login></app-login>
+        } @else {
+          <app-register></app-register>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+/* Global layout styles */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content styles */
+.main-content {
+  flex: 1;
+  min-height: calc(
+    100vh - 120px
+  ); /* Ensure content takes up at least the viewport height minus header and footer */
+}
+
+/* Default content wrapper for most pages */
+.main-content > *:not(app-home) {
+  padding: 16px; /* Reduced top padding since header is now sticky, not fixed */
+  /* padding-top: 80px; Increased top padding to account for fixed header (64px height + 16px padding) */
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Home page gets full width */
+.main-content app-home {
+  display: block;
+  width: 100%;
+  min-height: calc(
+    100vh - 64px
+  ); /* Ensure content takes up at least the viewport height minus header */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 12px; /* Reduced padding for mobile */
+    /* padding-top: 76px; Increased top padding to account for fixed header (64px height + 12px padding) */
+  }
+}

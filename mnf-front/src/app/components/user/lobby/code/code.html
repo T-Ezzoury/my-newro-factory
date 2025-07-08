@@ -1,0 +1,21 @@
+<div class="code-container">
+  <form class="code-input">
+    <input
+      matInput
+      type="text"
+      id="code"
+      name="code"
+      [ngModel]="code()"
+      (ngModelChange)="code.set($event)"
+      pattern="[a-zA-Z0-9]{6}"
+      title="Le code doit être composé de 6 caractères alphanumériques"
+      [readonly]="isCodeReadonly()"
+    />
+  </form>
+  <button class="action-button join-quiz" (click)="joinQuiz()">
+    Rejoindre un quiz
+  </button>
+  <button class="action-button create-session" (click)="createSession()">
+    Créer une session
+  </button>
+</div>

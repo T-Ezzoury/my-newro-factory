@@ -1,0 +1,68 @@
+<div class="quiz-management-container">
+  <div class="header">
+    <h1>Quiz Management</h1>
+    <p>View and manage your quizzes</p>
+  </div>
+
+  <div class="content-container">
+    <!-- Quiz List -->
+    <mat-card class="quiz-list-card">
+      <mat-card-header>
+        <mat-card-title>My Quizzes</mat-card-title>
+        <mat-card-subtitle>
+          <button mat-raised-button color="primary" (click)="addNewQuiz()" class="add-quiz-button">
+            <mat-icon>add</mat-icon>
+            Add Quiz
+          </button>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div *ngIf="loadingQuizzes" class="loading-container">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Loading quizzes...</p>
+        </div>
+
+        <div *ngIf="quizzesError" class="error-message">
+          {{ quizzesError }}
+        </div>
+
+        <mat-list>
+          <mat-list-item *ngFor="let quiz of quizzes" class="quiz-list-item">
+            <div class="quiz-list-content">
+              <div class="quiz-info">
+                <h3 matLine>{{ quiz.name }}</h3>
+                <p matLine *ngIf="quiz.description" class="quiz-description">{{ quiz.description }}</p>
+                <div class="quiz-metadata">
+                  <span *ngIf="quiz.createdAt" class="metadata-item">
+                    <mat-icon class="metadata-icon">schedule</mat-icon>
+                    Created: {{ quiz.createdAt | date:'short' }}
+                  </span>
+                  <span *ngIf="quiz.updatedAt && quiz.updatedAt !== quiz.createdAt" class="metadata-item">
+                    <mat-icon class="metadata-icon">update</mat-icon>
+                    Updated: {{ quiz.updatedAt | date:'short' }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="quiz-actions">
+                <button mat-icon-button color="primary" (click)="editQuiz(quiz)" matTooltip="Edit Quiz">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteQuiz(quiz.id!)" matTooltip="Delete Quiz">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-list-item>
+
+          <div *ngIf="quizzes.length === 0 && !loadingQuizzes" class="empty-list">
+            <mat-icon class="empty-icon">quiz</mat-icon>
+            <p>No quizzes available</p>
+            <p class="empty-subtitle">Go to Question Series to create your first quiz!</p>
+          </div>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

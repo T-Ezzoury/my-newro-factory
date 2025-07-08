@@ -1,0 +1,50 @@
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 2rem;
+}
+
+.error-card {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.error-title {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  transition: color 0.3s ease;
+}
+
+.error-icon {
+  font-size: 5rem;
+  height: 5rem;
+  width: 5rem;
+  margin: 2rem auto;
+  color: var(--error-color);
+}
+
+.error-icon mat-icon {
+  font-size: 5rem;
+  height: 5rem;
+  width: 5rem;
+}
+
+.error-message {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2rem;
+}

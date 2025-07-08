@@ -1,0 +1,561 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* CSS Variables for theming */
+:root {
+  /* Light theme (default) */
+  --background-color: #fffaf3;
+  --text-color: #131f2f;
+  --primary-color: #427373;
+  --secondary-color: #b46a76;
+  --surface-color: #a1d4d4;
+  --error-color: #f44336;
+  --border-color: #e0e0e0;
+  --card-background: #f0dddb;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  /* Material specific variables */
+  --mat-input-bg: #fffaf3;
+  --mat-input-border: #e0e0e0;
+  --mat-card-bg: #fffaf3;
+  --mat-dialog-bg: #fffaf3;
+  --mat-toolbar-bg: #f5f5f5;
+  --mat-tooltip-bg: rgba(52, 107, 110, 0.9);
+  --mat-tooltip-color: #fffaf3;
+  --mat-snackbar-bg: #427373;
+  --mat-snackbar-color: #fffaf3;
+  --mat-checkbox-bg: #fffaf3;
+  --mat-checkbox-checked-bg: #427373;
+  --mat-radio-bg: #fffaf3;
+  --mat-radio-checked-bg: #131f2f;
+  --mat-select-bg: #fffaf3;
+  --mat-select-option-hover: #f5f5f5;
+  --mat-progress-bar-bg: #e0e0e0;
+  --mat-progress-bar-fill: #427373;
+
+  --mat-sys-primary: var(--background-color);
+  --mat-sys-surface: var(--primary-color);
+  --mat-sys-on-surface: #2d5151;
+}
+
+/* Light theme (explicit) */
+[data-theme="light"] {
+  --background-color: #fffaf3;
+  --text-color: #131f2f;
+  --primary-color: #427373;
+  --secondary-color: #c66575;
+  --surface-color: #a1d4d4;
+  --error-color: #f44336;
+  --border-color: #e0e0e0;
+  --card-background: #ecc8c4;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  /* Material specific variables */
+  --mat-input-bg: #fffaf3;
+  --mat-input-border: #e0e0e0;
+  --mat-card-bg: #fffaf3;
+  --mat-dialog-bg: #fffaf3;
+  --mat-toolbar-bg: #f5f5f5;
+  --mat-tooltip-bg: rgba(52, 107, 110, 0.9);
+  --mat-tooltip-color: #fffaf3;
+  --mat-snackbar-bg: #427373;
+  --mat-snackbar-color: #fffaf3;
+  --mat-checkbox-bg: #fffaf3;
+  --mat-checkbox-checked-bg: #427373;
+  --mat-radio-bg: #fffaf3;
+  --mat-radio-checked-bg: #427373;
+  --mat-select-bg: #fffaf3;
+  --mat-select-option-hover: #f5f5f5;
+  --mat-progress-bar-bg: #e0e0e0;
+  --mat-progress-bar-fill: #427373;
+
+  --mat-sys-primary: var(--background-color);
+  --mat-sys-surface: var(--primary-color);
+  --mat-sys-on-surface: #2d5151;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --primary-color: #7986cb;
+  --secondary-color: #56ff40;
+  --surface-color: #1e1e1e;
+  --error-color: #e57373;
+  --border-color: #424242;
+  --card-background: #2d2d2d;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+
+  /* Material specific variables */
+  --mat-input-bg: #2d2d2d;
+  --mat-input-border: #424242;
+  --mat-card-bg: #2d2d2d;
+  --mat-dialog-bg: #2d2d2d;
+  --mat-toolbar-bg: #1e1e1e;
+  --mat-tooltip-bg: rgba(97, 97, 97, 0.9);
+  --mat-tooltip-color: #fffaf3;
+  --mat-snackbar-bg: #323232;
+  --mat-snackbar-color: #fffaf3;
+  --mat-checkbox-bg: #2d2d2d;
+  --mat-checkbox-checked-bg: #7986cb;
+  --mat-radio-bg: #2d2d2d;
+  --mat-radio-checked-bg: #7986cb;
+  --mat-select-bg: #2d2d2d;
+  --mat-select-option-hover: #1e1e1e;
+  --mat-progress-bar-bg: #424242;
+  --mat-progress-bar-fill: #7986cb;
+}
+
+/* We're not applying dark theme based on system preference anymore
+   Instead, we always default to light theme unless explicitly set to dark
+
+   The following media query has been commented out:
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --primary-color: #7986cb;
+    --secondary-color: #ff4081;
+    --surface-color: #1e1e1e;
+    --error-color: #e57373;
+    --border-color: #424242;
+    --card-background: #2d2d2d;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+
+    Material specific variables:
+    --mat-input-bg: #2d2d2d;
+    --mat-input-border: #424242;
+    --mat-card-bg: #2d2d2d;
+    --mat-dialog-bg: #2d2d2d;
+    --mat-toolbar-bg: #1e1e1e;
+    --mat-tooltip-bg: rgba(97, 97, 97, 0.9);
+    --mat-tooltip-color: #FFFAF3;
+    --mat-snackbar-bg: #323232;
+    --mat-snackbar-color: #FFFAF3;
+    --mat-checkbox-bg: #2d2d2d;
+    --mat-checkbox-checked-bg: #7986cb;
+    --mat-radio-bg: #2d2d2d;
+    --mat-radio-checked-bg: #7986cb;
+    --mat-select-bg: #2d2d2d;
+    --mat-select-option-hover: #1e1e1e;
+    --mat-progress-bar-bg: #424242;
+    --mat-progress-bar-fill: #7986cb;
+  }
+}
+*/
+
+/* Apply theme colors to elements */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Ensure header and footer respond to theme changes */
+app-header .header,
+app-header .toolbar,
+app-header mat-toolbar,
+app-footer .footer {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ensure Material components in header and footer respond to theme changes */
+app-header .mat-toolbar,
+app-header .mat-mdc-toolbar,
+app-footer .mat-toolbar,
+app-footer .mat-mdc-toolbar {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* Ensure sidenav components respond to theme changes */
+app-header .sidenav,
+app-header .mat-sidenav,
+app-header .mat-mdc-sidenav,
+.sidenav,
+.mat-sidenav,
+.mat-mdc-sidenav,
+.mat-drawer,
+.mat-mdc-drawer {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+app-header .sidenav-container,
+app-header .mat-sidenav-container,
+app-header .mat-mdc-sidenav-container,
+.sidenav-container,
+.mat-sidenav-container,
+.mat-mdc-sidenav-container,
+.mat-drawer-container,
+.mat-mdc-drawer-container {
+  background-color: transparent !important;
+}
+
+.mat-sidenav-content,
+.mat-mdc-sidenav-content,
+.mat-drawer-content,
+.mat-mdc-drawer-content {
+  color: var(--text-color) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ensure menu components respond to theme changes */
+.mat-menu-panel,
+.mat-mdc-menu-panel {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+}
+
+.mat-menu-item,
+.mat-mdc-menu-item {
+  color: var(--text-color) !important;
+}
+
+.mat-menu-item:hover,
+.mat-mdc-menu-item:hover {
+  background-color: var(--primary-color) !important;
+  color: #fffaf3 !important;
+}
+
+/* Ensure dialog components respond to theme changes */
+.mat-dialog-container,
+.mat-mdc-dialog-container {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+}
+
+.mat-dialog-content,
+.mat-mdc-dialog-content {
+  color: var(--text-color) !important;
+}
+
+.mat-dialog-title,
+.mat-mdc-dialog-title {
+  color: var(--text-color) !important;
+}
+
+.mat-dialog-actions,
+.mat-mdc-dialog-actions {
+  background-color: var(--surface-color) !important;
+}
+
+/* Ensure list components respond to theme changes */
+.mat-list,
+.mat-mdc-list,
+.mat-nav-list,
+.mat-mdc-nav-list {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+}
+
+.mat-list-item,
+.mat-mdc-list-item,
+.mat-nav-list .mat-list-item,
+.mat-mdc-nav-list .mat-mdc-list-item {
+  color: var(--text-color) !important;
+}
+
+.mat-list-item:hover,
+.mat-mdc-list-item:hover,
+.mat-nav-list .mat-list-item:hover,
+.mat-mdc-nav-list .mat-mdc-list-item:hover {
+  background-color: var(--primary-color) !important;
+  color: #fffaf3 !important;
+}
+
+/* Ensure card components respond to theme changes */
+.mat-card,
+.mat-mdc-card {
+  background-color: var(--card-background) !important;
+  color: var(--text-color) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mat-card-title,
+.mat-mdc-card-title {
+  color: var(--text-color) !important;
+}
+
+.mat-card-subtitle,
+.mat-mdc-card-subtitle {
+  color: var(--text-color) !important;
+  opacity: 0.7;
+}
+
+.mat-card-content,
+.mat-mdc-card-content {
+  color: var(--text-color) !important;
+}
+
+.mat-card-actions,
+.mat-mdc-card-actions {
+  background-color: var(--card-background) !important;
+}
+
+/* Ensure table components respond to theme changes */
+.mat-table,
+.mat-mdc-table {
+  background-color: var(--card-background) !important;
+  color: var(--text-color) !important;
+}
+
+.mat-header-row,
+.mat-mdc-header-row {
+  background-color: var(--surface-color) !important;
+}
+
+.mat-header-cell,
+.mat-mdc-header-cell {
+  color: var(--text-color) !important;
+  font-weight: bold;
+}
+
+.mat-row,
+.mat-mdc-row {
+  background-color: var(--card-background) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.mat-row:hover,
+.mat-mdc-row:hover {
+  background-color: var(--surface-color) !important;
+}
+
+.mat-cell,
+.mat-mdc-cell {
+  color: var(--text-color) !important;
+}
+
+.mat-paginator,
+.mat-mdc-paginator {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* Ensure form field components respond to theme changes */
+.mat-form-field,
+.mat-mdc-form-field {
+  color: var(--text-color) !important;
+}
+
+.mat-form-field-label,
+.mat-mdc-form-field-label {
+  color: var(--text-color) !important;
+  opacity: 0.7;
+}
+
+.mat-form-field-underline,
+.mat-mdc-form-field-underline {
+  background-color: var(--border-color) !important;
+}
+
+.mat-form-field-ripple,
+.mat-mdc-form-field-ripple {
+  background-color: var(--primary-color) !important;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex,
+.mat-mdc-form-field-appearance-fill .mat-mdc-form-field-flex {
+  background-color: var(--surface-color) !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline,
+.mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline {
+  color: var(--border-color) !important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
+.mat-mdc-form-field-appearance-outline.mat-focused
+  .mat-mdc-form-field-outline-thick {
+  color: var(--primary-color) !important;
+}
+
+.mat-form-field-invalid .mat-form-field-label,
+.mat-mdc-form-field-invalid .mat-mdc-form-field-label {
+  color: var(--error-color) !important;
+}
+
+.mat-form-field-invalid .mat-form-field-ripple,
+.mat-mdc-form-field-invalid .mat-mdc-form-field-ripple {
+  background-color: var(--error-color) !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Common elements styling */
+a {
+  color: var(--primary-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 15px;
+  border: none;
+}
+
+input,
+select,
+textarea {
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.card {
+  background-color: var(--card-background);
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+::placeholder {
+  color: var(--background-color);
+  opacity: 1; /* Firefox */
+  font-size: large;
+}
+
+::-ms-input-placeholder {
+  /* Edge 12 -18 */
+  color: var(--background-color);
+  font-size: large;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+/* Angular Material Components Styling */
+.mat-mdc-card {
+  background-color: var(--mat-card-bg);
+  color: var(--text-color);
+}
+
+.mat-mdc-form-field {
+  color: var(--text-color);
+}
+
+.mat-mdc-form-field-flex {
+  background-color: var(--mat-input-bg);
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: var(--mat-input-bg);
+}
+
+.mat-mdc-form-field-underline {
+  background-color: var(--mat-input-border);
+}
+
+.mat-mdc-dialog-container {
+  background-color: var(--mat-dialog-bg);
+  color: var(--text-color);
+}
+
+.mat-mdc-toolbar {
+  background-color: var(--mat-toolbar-bg);
+  color: var(--text-color);
+}
+
+.mat-mdc-tooltip {
+  background-color: var(--mat-tooltip-bg);
+  color: var(--mat-tooltip-color);
+}
+
+.mat-mdc-snack-bar-container {
+  background-color: var(--mat-snackbar-bg);
+  color: var(--mat-snackbar-color);
+}
+
+.mat-mdc-checkbox-background {
+  background-color: var(--mat-checkbox-bg);
+}
+
+.mat-mdc-checkbox-checked .mat-mdc-checkbox-background {
+  background-color: var(--mat-checkbox-checked-bg);
+}
+
+.mat-mdc-radio-button .mat-radio-outer-circle {
+  border-color: var(--mat-radio-bg);
+}
+
+.mat-mdc-radio-checked .mat-radio-outer-circle {
+  border-color: var(--mat-radio-checked-bg);
+}
+
+.mat-mdc-radio-inner-circle {
+  background-color: var(--mat-radio-checked-bg);
+}
+
+.mat-mdc-select-panel {
+  background-color: var(--mat-select-bg);
+}
+
+.mat-mdc-option:hover:not(.mat-option-disabled) {
+  background-color: var(--mat-select-option-hover);
+}
+
+.mat-mdc-progress-bar-background {
+  background-color: var(--mat-progress-bar-bg);
+}
+
+.mat-mdc-progress-bar-buffer {
+  background-color: var(--mat-progress-bar-bg);
+}
+
+.mat-mdc-progress-bar-fill::after {
+  background-color: var(--mat-progress-bar-fill);
+}
+
+/* Additional Material styling for inputs and buttons */
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-stroked-button,
+.mat-mdc-flat-button {
+  color: var(--text-color);
+}
+
+.mat-mdc-raised-button.mat-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.mat-mdc-input-element {
+  color: var(--text-color);
+}
+
+.mat-mdc-select-value {
+  color: var(--text-color);
+}
+
+.mat-mdc-select-arrow {
+  color: var(--text-color);
+}
+
+.mat-mdc-form-field-label {
+  color: var(--text-color);
+}
+
+.mat-mdc-tab-group {
+  color: var(--text-color);
+}
+
+.mat-mdc-tab-header {
+  background-color: var(--surface-color);
+}
+
+.mat-mdc-tab {
+  color: var(--text-color);
+}
+
+.mat-mdc-tab-body-content {
+  color: var(--text-color);
+  background-color: var(--background-color);
+}

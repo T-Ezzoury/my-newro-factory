@@ -1,0 +1,50 @@
+<div class="form-container">
+  <div class="form-header">
+    <h2>{{ isEditMode ? 'Edit Admin' : 'Create Admin' }}</h2>
+    <div class="form-actions">
+      <button mat-button (click)="cancel()" class="cancel-button">Cancel</button>
+    </div>
+  </div>
+
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+
+  <form [formGroup]="adminForm" (ngSubmit)="onSubmit()" class="admin-form">
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input type="text" id="name" formControlName="name" class="form-input" placeholder="Enter admin name">
+      @if (adminForm.get('name')?.invalid && adminForm.get('name')?.touched) {
+        <div class="error-message">Name is required</div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email" class="form-input" placeholder="Enter admin email">
+      @if (adminForm.get('email')?.invalid && adminForm.get('email')?.touched) {
+        <div class="error-message">
+          @if (adminForm.get('email')?.errors?.['required']) {
+            Email is required
+          } @else if (adminForm.get('email')?.errors?.['email']) {
+            Please enter a valid email address
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="adminForm.invalid || loading" class="submit-button">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </form>
+
+  @if (loading) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+    </div>
+  }
+</div>

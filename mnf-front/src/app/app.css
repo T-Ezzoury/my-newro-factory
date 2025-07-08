@@ -1,0 +1,13 @@
+/* App styles moved to layout components */
+.app-header {
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+}

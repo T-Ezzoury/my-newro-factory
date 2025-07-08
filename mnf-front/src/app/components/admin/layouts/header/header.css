@@ -1,0 +1,62 @@
+/* Admin header styles */
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+.admin-dashboard-slider {
+  width: 40%;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  margin: 0 8px;
+}
+
+.language-selector {
+  margin-left: 8px;
+}
+
+.flag-icon {
+  width: 24px;
+  height: 16px;
+  border-radius: 2px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+}
+
+/* Dark mode specific styles */
+:host-context([data-theme="dark"]) {
+  .toolbar {
+    background-color: #1e1e1e;
+  }
+}

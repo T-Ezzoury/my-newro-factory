@@ -1,0 +1,76 @@
+<div class="intern-list-container">
+  <div class="list-header">
+    <h2 class="list-title">Interns</h2>
+    <a routerLink="/admin/interns/create" class="add-button">
+      Add Intern
+    </a>
+  </div>
+
+  <!-- Error message -->
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Loading indicator -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <span class="loading-text">Loading interns...</span>
+    </div>
+  }
+
+  <!-- No interns message -->
+  @if (!loading && interns.length === 0) {
+    <div class="empty-state">
+      <p class="empty-state-text">No interns found. Create your first intern to get started.</p>
+    </div>
+  }
+
+  <!-- Interns list -->
+  @if (!loading && interns.length > 0) {
+    <div class="table-container">
+      <table class="data-table">
+        <thead class="table-header">
+          <tr>
+            <th scope="col" class="table-header-cell">ID</th>
+            <th scope="col" class="table-header-cell">First Name</th>
+            <th scope="col" class="table-header-cell">Last Name</th>
+            <th scope="col" class="table-header-cell">Arrival</th>
+            <th scope="col" class="table-header-cell">Formation Over</th>
+            <th scope="col" class="table-header-cell">Promotion</th>
+            <th scope="col" class="table-header-cell">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          @for (intern of paginatedInterns; track intern.id) {
+            <tr class="table-row">
+              <td class="table-cell">{{ intern.id }}</td>
+              <td class="table-cell">{{ intern.first_name }}</td>
+              <td class="table-cell">{{ intern.last_name }}</td>
+              <td class="table-cell">{{ intern.arrival | date }}</td>
+              <td class="table-cell">{{ intern.formation_over | date }}</td>
+              <td class="table-cell">{{ getInternPromotionName(intern) }}</td>
+              <td class="table-cell">
+                <div class="actions-container">
+                  @if (intern.id !== undefined) {
+                    <a [routerLink]="['/admin/interns', intern.id]" class="view-button">View</a>
+                  }
+                  @if (intern.id !== undefined) {
+                    <a [routerLink]="['/admin/interns/edit', intern.id]" class="edit-button">Edit</a>
+                  }
+                  @if (intern.id !== undefined) {
+                    <button (click)="deleteIntern(intern.id)" class="delete-button">Delete</button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Pagination is now handled by the parent component -->
+    </div>
+  }
+</div>

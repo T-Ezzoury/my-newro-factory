@@ -1,0 +1,72 @@
+<div class="question-list-container">
+  <div class="list-header">
+    <h1 class="list-title" i18n="@@questionsTitle">Questions</h1>
+    <a routerLink="/admin/questions/create" class="add-button" i18n="@@createQuestionButton">
+      Create Question
+    </a>
+  </div>
+
+  <!-- Error message -->
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Loading indicator -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <span class="loading-text" i18n="@@loadingQuestions">Loading questions...</span>
+    </div>
+  }
+
+  <!-- Questions list -->
+  @if (!loading && questions.length > 0) {
+    <div class="table-container">
+      <table class="data-table">
+        <thead class="table-header">
+          <tr>
+            <th scope="col" class="table-header-cell" i18n="@@idColumn">ID</th>
+            <th scope="col" class="table-header-cell" i18n="@@titleColumn">Title</th>
+            <th scope="col" class="table-header-cell" i18n="@@statementColumn">Statement</th>
+            <th scope="col" class="table-header-cell" i18n="@@chapterColumn">Chapter</th>
+            <th scope="col" class="table-header-cell" i18n="@@actionsColumn">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          @for (question of paginatedQuestions; track question.id) {
+            <tr class="table-row">
+              <td class="table-cell">{{ question.id }}</td>
+              <td class="table-cell">{{ question.title }}</td>
+              <td class="table-cell">{{ question.statement }}</td>
+              <td class="table-cell">{{ question.chapter?.title || 'N/A' }}</td>
+              <td class="table-cell">
+                <div class="actions-container">
+                  @if (question.id !== undefined) {
+                    <a [routerLink]="['/admin/questions', question.id]" class="view-button" i18n="@@viewButton">View</a>
+                  }
+                  @if (question.id !== undefined) {
+                    <a [routerLink]="['/admin/questions/edit', question.id]" class="edit-button" i18n="@@editButton">Edit</a>
+                  }
+                  @if (question.id !== undefined) {
+                    <button (click)="deleteQuestion(question.id)" class="delete-button" i18n="@@deleteButton">Delete</button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Pagination is now handled by the parent component -->
+    </div>
+  }
+
+  <!-- No questions message -->
+  @if (!loading && questions.length === 0) {
+    <div class="empty-state">
+      <p class="empty-state-text" i18n="@@noQuestionsMessage">No questions found. Create your first question to get started.</p>
+    </div>
+  }
+</div>

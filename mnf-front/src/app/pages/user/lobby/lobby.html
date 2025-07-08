@@ -1,0 +1,27 @@
+<div class="lobby-container">
+  <div class="lobby-header">
+    <h1 class="lobby-title">{{ currentChannel?.name || 'Lobby' }}</h1>
+    <button class="invite-button" (click)="openChannelInviteDialog()">
+      <span class="invite-icon">+</span>
+      <span class="invite-text">Inviter des utilisateurs</span>
+    </button>
+  </div>
+
+  <app-code></app-code>
+
+  <app-chapitre-list></app-chapitre-list>
+
+  <div class="question-number">
+    <input
+      type="number"
+      id="nbrQuestion"
+      name="nbrQuestion"
+      min="1"
+      max="10"
+      placeholder="Nombre de questions"
+      class="number-field"
+      required
+    />
+    <button class="launch-button">Lancer</button>
+  </div>
+</div>

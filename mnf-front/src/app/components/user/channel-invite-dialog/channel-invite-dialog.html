@@ -1,0 +1,146 @@
+<div class="dialog-container">
+  <!-- Dialog header -->
+  <div class="dialog-header">
+    <h2 class="dialog-title">
+      @if (createNewChannel) {
+        {{ 'channelInvite.createChannel' | translate }}
+      } @else {
+        {{ 'channelInvite.inviteUsers' | translate }}
+      }
+    </h2>
+    <button mat-icon-button (click)="close()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Channel name input (only for create mode) -->
+  @if (createNewChannel) {
+    <div class="channel-name-container">
+      <mat-form-field appearance="outline" class="channel-name-field">
+        <mat-label>{{ 'channelInvite.channelName' | translate }}</mat-label>
+        <input matInput [(ngModel)]="channelName" placeholder="{{ 'channelInvite.channelNamePlaceholder' | translate }}">
+        <mat-icon matSuffix>group</mat-icon>
+      </mat-form-field>
+    </div>
+  } @else if (channel) {
+    <div class="channel-info">
+      <h3>{{ channel.name }}</h3>
+    </div>
+  }
+
+  <!-- Search field -->
+  <div class="search-container">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>{{ 'channelInvite.search' | translate }}</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="{{ 'channelInvite.searchPlaceholder' | translate }}">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Favorites section -->
+  <div class="section-container">
+    <h3 class="section-title">{{ 'channelInvite.favorites' | translate }}</h3>
+
+    @if (loadingFavorites) {
+      <div class="loading-container">
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+    } @else if (favoriteError) {
+      <div class="error-message">{{ favoriteError }}</div>
+    } @else if (availableFavoriteUsers.length === 0) {
+      <div class="empty-message">{{ 'channelInvite.noFavorites' | translate }}</div>
+    } @else {
+      <div class="user-list">
+        @for (user of availableFavoriteUsers; track user.id) {
+          <div class="user-item" [class.selected]="isInvited(user.id)" (click)="toggleUserSelection(user.id)">
+            <div class="user-info">
+              <div class="user-name">{{ user.name }}</div>
+              <div class="user-email">{{ user.email }}</div>
+            </div>
+            <div class="user-action">
+              @if (isInvited(user.id)) {
+                <mat-icon color="primary">check_circle</mat-icon>
+              } @else {
+                <mat-icon>add_circle_outline</mat-icon>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Other users section -->
+  <div class="section-container">
+    <h3 class="section-title">{{ 'channelInvite.otherUsers' | translate }}</h3>
+
+    @if (loadingUsers) {
+      <div class="loading-container">
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+    } @else if (userError) {
+      <div class="error-message">{{ userError }}</div>
+    } @else if (availableOtherUsers.length === 0) {
+      <div class="empty-message">{{ 'channelInvite.noUsers' | translate }}</div>
+    } @else {
+      <div class="user-list">
+        @for (user of availableOtherUsers; track user.id) {
+          <div class="user-item" [class.selected]="isInvited(user.id)" (click)="toggleUserSelection(user.id)">
+            <div class="user-info">
+              <div class="user-name">{{ user.name }}</div>
+              <div class="user-email">{{ user.email }}</div>
+            </div>
+            <div class="user-action">
+              @if (isInvited(user.id)) {
+                <mat-icon color="primary">check_circle</mat-icon>
+              } @else {
+                <mat-icon>add_circle_outline</mat-icon>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Dialog actions -->
+  <div class="dialog-actions">
+    <button mat-button (click)="close()">{{ 'channelInvite.cancel' | translate }}</button>
+
+    @if (createNewChannel) {
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!channelName || invitedUsers.length === 0 || creatingChannel"
+        (click)="createChannelAndInviteUsers()">
+        <span class="button-content">
+          @if (creatingChannel) {
+            <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+            {{ 'channelInvite.creating' | translate }}
+          } @else {
+            <mat-icon>group_add</mat-icon>
+            {{ 'channelInvite.createAndInvite' | translate }}
+          }
+        </span>
+      </button>
+    } @else {
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="invitedUsers.length === 0 || invitingUsers"
+        (click)="inviteUsersToChannel()">
+        <span class="button-content">
+          @if (invitingUsers) {
+            <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+            {{ 'channelInvite.inviting' | translate }}
+          } @else {
+            <mat-icon>person_add</mat-icon>
+            {{ 'channelInvite.invite' | translate }}
+          }
+        </span>
+      </button>
+    }
+  </div>
+</div>

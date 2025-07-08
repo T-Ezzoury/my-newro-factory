@@ -1,0 +1,140 @@
+<!-- Header section positioned at top left -->
+<header class="header">
+  <div class="toolbar">
+    <div class="logo-container">
+      <a routerLink="/" class="logo">{{ 'app.title' | translate }}</a>
+    </div>
+    <span class="spacer"></span>
+
+    <div class="nav-links">
+      @for (link of navLinks; track link.path) {
+        <a mat-button [routerLink]="link.path">
+          {{ 'nav.' + link.label.toLowerCase() | translate }}
+        </a>
+      }
+    </div>
+
+    <a mat-raised-button class="learn-button">
+      Apprendre
+      <mat-icon>play_arrow</mat-icon>
+    </a>
+
+    @if (isAuthenticated) {
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="profileMenu"
+        class="profile-button"
+        title="{{ 'nav.profile' | translate }}"
+      >
+        <mat-icon>account_circle</mat-icon>
+      </button>
+
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>{{ 'profile.title' | translate }}</span>
+        </button>
+        <button mat-menu-item routerLink="/favorites">
+          <mat-icon>star</mat-icon>
+          <span>{{ 'favorites.title' | translate }}</span>
+        </button>
+        <button mat-menu-item routerLink="/quiz-management">
+          <mat-icon>quiz</mat-icon>
+          <span>Quiz Management</span>
+        </button>
+        @if (isAdmin) {
+          <button mat-menu-item routerLink="/admin/dashboard">
+            <mat-icon>dashboard</mat-icon>
+            <span>{{ 'admin.dashboard' | translate }}</span>
+          </button>
+        }
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>{{ 'profile.logout' | translate }}</span>
+        </button>
+      </mat-menu>
+    }
+
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="languageMenu"
+      class="language-selector"
+    >
+      <img
+        src="assets/flags/{{ currentLanguage.flag }}.svg"
+        alt="{{ currentLanguage.name }}"
+        class="flag-icon"
+      />
+    </button>
+
+    <mat-menu #languageMenu="matMenu">
+      @for (lang of languages; track lang.code) {
+        <button mat-menu-item (click)="changeLanguage(lang.code)">
+          <img
+            src="assets/flags/{{ lang.flag }}.svg"
+            alt="{{ lang.name }}"
+            class="flag-icon"
+          />
+          <span>{{ lang.name }}</span>
+        </button>
+      }
+    </mat-menu>
+
+    <app-theme-toggle (themeChanged)="onThemeChanged($event)"></app-theme-toggle>
+
+    <button mat-icon-button class="menu-button" (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+</header>
+
+<!-- Sidenav section -->
+@if (sidenavOpened) {
+  <div class="sidenav-overlay" (click)="toggleSidenav()"></div>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      #sidenav
+      [opened]="sidenavOpened"
+      mode="over"
+      class="sidenav"
+    >
+      <mat-nav-list>
+        @for (link of navLinks; track link.path) {
+          <a mat-list-item [routerLink]="link.path" (click)="toggleSidenav()">
+            {{ 'nav.' + link.label.toLowerCase() | translate }}
+          </a>
+        }
+
+        @if (isAuthenticated) {
+          <mat-divider></mat-divider>
+
+          <a mat-list-item routerLink="/profile" (click)="toggleSidenav()">
+            <mat-icon class="mr-2">person</mat-icon>
+            {{ 'profile.title' | translate }}
+          </a>
+          <a mat-list-item routerLink="/favorites" (click)="toggleSidenav()">
+            <mat-icon class="mr-2">star</mat-icon>
+            {{ 'favorites.title' | translate }}
+          </a>
+          <a mat-list-item routerLink="/quiz-management" (click)="toggleSidenav()">
+            <mat-icon class="mr-2">quiz</mat-icon>
+            Quiz Management
+          </a>
+
+          @if (isAdmin) {
+            <a mat-list-item routerLink="/admin/dashboard" (click)="toggleSidenav()">
+              <mat-icon class="mr-2">dashboard</mat-icon>
+              {{ 'admin.dashboard' | translate }}
+            </a>
+          }
+
+          <a mat-list-item (click)="logout(); toggleSidenav()">
+            <mat-icon class="mr-2">exit_to_app</mat-icon>
+            {{ 'profile.logout' | translate }}
+          </a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content></mat-sidenav-content>
+  </mat-sidenav-container>
+}

@@ -1,0 +1,42 @@
+# Node modules
+node_modules
+
+# Git
+.git
+.gitignore
+
+# Build files
+dist
+tmp
+out-tsc
+
+# IDE files
+.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test files
+/coverage
+/.nyc_output
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.*

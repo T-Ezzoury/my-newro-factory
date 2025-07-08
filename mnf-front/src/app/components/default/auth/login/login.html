@@ -1,0 +1,56 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-container" @formAnimation>
+  <!-- Error message -->
+  @if (error) {
+    <div class="alert alert-error" role="alert">
+      <span>{{ error }}</span>
+    </div>
+  }
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" class="w-full custom-form-field">
+      <mat-label>{{ 'auth.email' | translate }}</mat-label>
+      <mat-icon matPrefix class="mr-2">email</mat-icon>
+      <input matInput type="email" formControlName="email" placeholder="your.email@example.com" required>
+      @if (loginForm.get('email')?.invalid) {
+        <mat-error>
+          {{ getErrorMessage('email') | translate }}
+        </mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" class="w-full custom-form-field">
+      <mat-label>{{ 'auth.password' | translate }}</mat-label>
+      <mat-icon matPrefix class="mr-2">lock</mat-icon>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      @if (loginForm.get('password')?.invalid) {
+        <mat-error>
+          {{ getErrorMessage('password') | translate }}
+        </mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="form-group flex items-center justify-between">
+    <mat-checkbox color="primary" class="remember-me">{{ 'auth.rememberMe' | translate }}</mat-checkbox>
+    <a routerLink="/forgot-password" class="forgot-password">{{ 'auth.forgotPassword' | translate }}</a>
+  </div>
+
+  <div class="actions-container">
+    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || loading" class="action-button submit-button">
+      <span class="flex items-center justify-center">
+        @if (loading) {
+          <mat-spinner diameter="24" class="mr-2"></mat-spinner>
+          {{ 'common.loading' | translate }}
+        } @else {
+          <mat-icon class="mr-2">login</mat-icon>
+          {{ 'auth.login' | translate }}
+        }
+      </span>
+    </button>
+  </div>
+</form>

@@ -1,0 +1,83 @@
+<div class="chapter-detail-container">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold" i18n="@@chapterDetailTitle">Chapter Details</h1>
+    <div class="flex space-x-2">
+      <a routerLink="/admin/chapters" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-200" i18n="@@backToListButton">
+        Back to List
+      </a>
+      @if (chapter) {
+        <a [routerLink]="['/admin/chapters/edit', chapter.id]" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded transition duration-200" i18n="@@editChapterButton">
+          Edit
+        </a>
+        <button (click)="deleteChapter()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200" i18n="@@deleteChapterButton">
+          Delete
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Error message -->
+  @if (error) {
+    <div class="bg-red-800 text-white p-4 rounded mb-4">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Loading indicator -->
+  @if (loading) {
+    <div class="flex justify-center items-center py-8">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <span class="ml-3" i18n="@@loadingChapter">Loading chapter...</span>
+    </div>
+  }
+
+  <!-- Chapter details -->
+  @if (!loading && chapter) {
+    <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+      <div class="p-6">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white mb-2">{{ chapter.title }}</h2>
+          <p class="text-gray-400" i18n="@@chapterPathLabel">Path: <span class="text-gray-300">{{ chapter.path }}</span></p>
+          @if (chapter.parentPath) {
+            <p class="text-gray-400" i18n="@@parentPathLabel">Parent Path: <span class="text-gray-300">{{ chapter.parentPath }}</span></p>
+          }
+        </div>
+
+        <div class="border-t border-gray-700 pt-4">
+          <h3 class="text-xl font-semibold mb-3" i18n="@@contentLabel">Content</h3>
+          @if (chapter.content) {
+            <div class="bg-gray-700 p-4 rounded text-gray-300 whitespace-pre-wrap">{{ chapter.content }}</div>
+          } @else {
+            <p class="text-gray-400 italic" i18n="@@noContentMessage">No content available for this chapter.</p>
+          }
+        </div>
+
+        <div class="border-t border-gray-700 mt-6 pt-4">
+          <h3 class="text-xl font-semibold mb-3" i18n="@@metadataLabel">Metadata</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p class="text-gray-400" i18n="@@idLabel">ID: <span class="text-gray-300">{{ chapter.id }}</span></p>
+            </div>
+            @if (chapter.createdAt) {
+              <div>
+                <p class="text-gray-400" i18n="@@createdAtLabel">Created: <span class="text-gray-300">{{ chapter.createdAt | date:'medium' }}</span></p>
+              </div>
+            }
+            @if (chapter.updatedAt) {
+              <div>
+                <p class="text-gray-400" i18n="@@updatedAtLabel">Updated: <span class="text-gray-300">{{ chapter.updatedAt | date:'medium' }}</span></p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- No chapter found message -->
+  @if (!loading && !chapter && !error) {
+    <div class="bg-gray-800 rounded-lg p-8 text-center">
+      <p class="text-xl text-gray-300" i18n="@@noChapterFoundMessage">Chapter not found.</p>
+    </div>
+  }
+</div>

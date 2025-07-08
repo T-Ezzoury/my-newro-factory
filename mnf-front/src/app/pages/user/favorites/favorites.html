@@ -1,0 +1,160 @@
+<div class="favorites-container">
+  <div class="content-wrapper">
+    <!-- Users Card -->
+    <div class="favorites-card">
+      <h1 class="favorites-title">
+        {{ 'users.title' | translate }}
+      </h1>
+
+      <!-- Search field -->
+      <div class="search-container">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>{{ 'users.search' | translate }}</mat-label>
+          <input matInput [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="{{ 'users.searchPlaceholder' | translate }}">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      @if (usersLoading) {
+        <div class="loading-spinner">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+      }
+
+      @if (usersError) {
+        <div class="error-message">
+          {{ usersError }}
+          <button mat-raised-button color="primary" (click)="goToHome()" class="home-button">
+            <mat-icon>home</mat-icon>
+            {{ 'favorites.goToHome' | translate }}
+          </button>
+        </div>
+      }
+
+      @if (!usersLoading && !usersError) {
+        @if (filteredUsers.length === 0) {
+          <div class="empty-state">
+            <mat-icon class="empty-icon">person_search</mat-icon>
+            <p>{{ 'users.empty' | translate }}</p>
+          </div>
+        } @else {
+          <div class="favorites-table-container">
+            <table mat-table [dataSource]="paginatedUsers" class="favorites-table">
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>{{ 'users.name' | translate }}</th>
+                <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+              </ng-container>
+
+              <!-- Email Column -->
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>{{ 'users.email' | translate }}</th>
+                <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+              </ng-container>
+
+              <!-- Role Column -->
+              <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef>{{ 'users.role' | translate }}</th>
+                <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+              </ng-container>
+
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>{{ 'users.actions' | translate }}</th>
+                <td mat-cell *matCellDef="let user">
+                  <button
+                    mat-icon-button
+                    [color]="isInFavorites(user.id) ? 'warn' : 'primary'"
+                    (click)="addToFavorites(user)"
+                    [disabled]="isInFavorites(user.id)"
+                    [title]="isInFavorites(user.id) ? ('users.alreadyInFavorites' | translate) : ('users.addToFavorites' | translate)">
+                    <mat-icon>{{ isInFavorites(user.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="userDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: userDisplayedColumns;"></tr>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+              <app-pagination
+                [currentPage]="currentPage"
+                [pageSize]="pageSize"
+                [totalItems]="totalItems"
+                [totalPages]="totalPages"
+                (pageChange)="onPageChange($event)"
+              ></app-pagination>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Favorites Card -->
+    <div class="favorites-card">
+      <h1 class="favorites-title">
+        {{ 'favorites.title' | translate }}
+      </h1>
+
+      @if (loading) {
+        <div class="loading-spinner">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+      }
+
+      @if (error) {
+        <div class="error-message">
+          {{ error }}
+          <button mat-raised-button color="primary" (click)="goToHome()" class="home-button">
+            <mat-icon>home</mat-icon>
+            {{ 'favorites.goToHome' | translate }}
+          </button>
+        </div>
+      }
+
+      @if (!loading && !error) {
+        @if (favorites.length === 0) {
+          <div class="empty-state">
+            <mat-icon class="empty-icon">star_border</mat-icon>
+            <p>{{ 'favorites.empty' | translate }}</p>
+            <button mat-raised-button color="primary" (click)="goToHome()" class="home-button">
+              <mat-icon>home</mat-icon>
+              {{ 'favorites.goToHome' | translate }}
+            </button>
+          </div>
+        } @else {
+          <div class="favorites-table-container">
+            <table mat-table [dataSource]="favorites" class="favorites-table">
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>{{ 'favorites.name' | translate }}</th>
+                <td mat-cell *matCellDef="let favorite">{{ favorite.favoriteUserName }}</td>
+              </ng-container>
+
+              <!-- Email Column -->
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>{{ 'favorites.email' | translate }}</th>
+                <td mat-cell *matCellDef="let favorite">{{ favorite.favoriteUserEmail }}</td>
+              </ng-container>
+
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>{{ 'favorites.actions' | translate }}</th>
+                <td mat-cell *matCellDef="let favorite">
+                  <button mat-icon-button color="warn" (click)="removeFavorite(favorite.id)" title="{{ 'favorites.remove' | translate }}">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

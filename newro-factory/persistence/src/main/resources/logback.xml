@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+
+  <!-- Répertoire de logs sous TOMCAT_BASE/logsDeFouMalade -->
+  <property name="LOG_DIR" value="logs/logsDeFouMalade"/>
+
+  <!-- Affiche les erreurs de config dans la console -->
+  <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+
+  <!-- Appender principal : un fichier par jour, conservation 30 jours, cap 1 Go -->
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_DIR}/app.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- un fichier par jour, plus d’index -->
+      <fileNamePattern>${LOG_DIR}/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>1GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Appender dédié aux ERROR : même rolling journalier -->
+  <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_DIR}/error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_DIR}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>500MB</totalSizeCap>
+    </rollingPolicy>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+    </filter>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.hibernate.cfg.Environment" level="debug"/>
+
+  <!-- Logger racine : INFO+ dans FILE, ERROR aussi dans ERROR_FILE -->
+  <root level="INFO">
+    <appender-ref ref="FILE"/>
+    <appender-ref ref="ERROR_FILE"/>
+  </root>
+
+</configuration>
